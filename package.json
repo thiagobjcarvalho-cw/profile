@@ -1,0 +1,15 @@
+{
+  "name": "portfolio-thiago-carvalho",
+  "version": "1.0.0",
+  "description": "Portfólio profissional do Thiago Carvalho",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "serve": "python3 -m http.server 8080",
+    "start": "npx serve .",
+    "build": "echo 'Ready for production'"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  }
+}

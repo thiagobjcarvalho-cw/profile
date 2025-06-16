@@ -114,7 +114,7 @@
               <div class="profile-avatar">
                 <v-avatar size="280" class="avatar-main">
                   <v-img
-                    src="https://via.placeholder.com/280x280/3B82F6/FFFFFF?text=TC"
+                    src="../assets/images/profile.jpeg"
                     alt="Thiago Carvalho"
                     cover
                   />
@@ -488,6 +488,18 @@ onMounted(() => {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   animation: float-skill 4s ease-in-out infinite;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #222 !important;
+  background: rgba(255,255,255,0.95) !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+:deep([data-theme="dark"]) .skill-chip {
+  color: #fff !important;
+  background: rgba(30,30,30,0.95) !important;
+  border: 2px solid #EF7917 !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.18);
 }
 
 .skill-chip:hover {

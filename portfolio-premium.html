@@ -1,0 +1,1925 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thiago Carvalho - Full Stack Developer Senior</title>
+    <meta name="description" content="Thiago Carvalho - Full Stack Developer Senior com 10+ anos de experiencia em VueJS, ReactJS, Angular e API Platform.">
+    <meta name="keywords" content="Full Stack Developer, VueJS, ReactJS, Angular, PHP, Brasilia">
+    <meta name="author" content="Thiago Carvalho">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Thiago Carvalho - Full Stack Developer Senior">
+    <meta property="og:description" content="Portfolio profissional - 10+ anos de experiencia em desenvolvimento web">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===== RESET E BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ===== VARIAVEIS CSS - LIGHT THEME ===== */
+        :root {
+            --primary: #3B82F6;
+            --primary-hover: #2563EB;
+            --accent: #FF6B35;
+            --accent-hover: #E55A2B;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --info: #06B6D4;
+
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F8FAFC;
+            --bg-tertiary: #F1F5F9;
+            --bg-dark: #0F0F23;
+
+            --text-primary: #1E293B;
+            --text-secondary: #64748B;
+            --text-muted: #94A3B8;
+            --text-light: #FFFFFF;
+
+            --border: #E2E8F0;
+            --border-light: rgba(255, 255, 255, 0.1);
+
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+
+            --nav-bg: rgba(255, 255, 255, 0.95);
+            --nav-text: #1E293B;
+            --card-bg: #FFFFFF;
+        }
+
+        /* ===== DARK THEME ===== */
+        [data-theme="dark"] {
+            --bg-primary: #0F0F23;
+            --bg-secondary: #1E1E3F;
+            --bg-tertiary: #2A2A5C;
+            --bg-dark: #000000;
+
+            --text-primary: #F8FAFC;
+            --text-secondary: #CBD5E1;
+            --text-muted: #94A3B8;
+
+            --border: #334155;
+
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+
+            --nav-bg: rgba(15, 15, 35, 0.95);
+            --nav-text: #F8FAFC;
+            --card-bg: #1E1E3F;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            overflow-x: hidden;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* ===== LOADING SCREEN ===== */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0F0F23 0%, #1a1a3a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            color: var(--text-light);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* ===== SCROLL PROGRESS ===== */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            z-index: 10001;
+            transition: width 0.1s ease;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 16px 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--nav-text);
+            text-decoration: none;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .theme-toggle {
+            width: 44px;
+            height: 44px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 0 80px;
+            background: linear-gradient(135deg, #0F0F23 0%, #1a1a3a 50%, #0F0F23 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(255, 107, 53, 0.1) 0%, transparent 50%);
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content {
+            color: var(--text-light);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 20px;
+            margin-bottom: 24px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-text {
+            color: var(--success);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, var(--primary), var(--accent), var(--primary));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+
+        .hero-subtitle {
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 16px;
+            min-height: 2.2rem;
+        }
+
+        .typewriter-cursor {
+            animation: blink 1s infinite;
+            color: var(--primary);
+        }
+
+        .hero-location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.95rem;
+            margin-bottom: 32px;
+        }
+
+        .hero-description {
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 14px 28px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-link {
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        /* Hero Visual */
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+            font-weight: 900;
+            color: white;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 4px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .avatar-ring {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            border-radius: 50%;
+            animation: pulseRing 3s ease-out infinite;
+        }
+
+        .floating-skills {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .floating-skill {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: floatSkill 4s ease-in-out infinite;
+        }
+
+        .floating-skill:hover {
+            transform: scale(1.1) !important;
+            background: var(--primary);
+            color: white;
+        }
+
+        /* ===== SECTIONS BASE ===== */
+        .section {
+            padding: 100px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 20px;
+            margin-bottom: 16px;
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+
+        .section-title span {
+            color: var(--primary);
+        }
+
+        /* ===== ABOUT SECTION ===== */
+        .about {
+            background: var(--bg-secondary);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 60px;
+        }
+
+        .about-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+        }
+
+        .about-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .about-avatar {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .about-info h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .about-info p {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+
+        .about-alert {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 16px 20px;
+            border-radius: 8px;
+        }
+
+        .about-alert strong {
+            color: var(--primary);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .stat-card {
+            background: var(--primary);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            color: white;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .stat-card:nth-child(2) { background: var(--success); }
+        .stat-card:nth-child(3) { background: var(--info); }
+        .stat-card:nth-child(4) { background: var(--accent); }
+
+        .stat-card:hover {
+            transform: translateY(-5px) scale(1.02);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        /* Sidebar */
+        .sidebar-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+        }
+
+        .sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timeline-mini {
+            position: relative;
+        }
+
+        .timeline-mini::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .timeline-mini-item {
+            position: relative;
+            padding-left: 32px;
+            padding-bottom: 24px;
+        }
+
+        .timeline-mini-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-mini-dot {
+            position: absolute;
+            left: 0;
+            top: 4px;
+            width: 14px;
+            height: 14px;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 2px solid var(--bg-primary);
+        }
+
+        .timeline-mini-item:nth-child(2) .timeline-mini-dot { background: var(--success); }
+        .timeline-mini-item:nth-child(3) .timeline-mini-dot { background: var(--info); }
+
+        .timeline-mini-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .timeline-mini-subtitle {
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .timeline-mini-period {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* CTA Card */
+        .cta-card {
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+            color: white;
+        }
+
+        .cta-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        .cta-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+        }
+
+        .cta-card p {
+            opacity: 0.9;
+            margin-bottom: 16px;
+        }
+
+        .cta-btn {
+            background: transparent;
+            color: white;
+            padding: 12px 24px;
+            border: 2px solid white;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-btn:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        /* ===== EXPERIENCE SECTION ===== */
+        .experience {
+            background: var(--bg-primary);
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 60px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            border: 4px solid var(--bg-primary);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
+        }
+
+        .timeline-content {
+            background: var(--card-bg);
+            padding: 32px;
+            border-radius: 20px;
+            width: 45%;
+            margin: 0 30px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .timeline-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .timeline-period {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .timeline-role {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .timeline-company {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .timeline-location {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+
+        .timeline-description {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .timeline-achievements {
+            list-style: none;
+            margin-bottom: 16px;
+        }
+
+        .timeline-achievements li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .timeline-achievements li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .timeline-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tech-tag {
+            padding: 4px 12px;
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* ===== SKILLS SECTION ===== */
+        .skills {
+            background: var(--bg-secondary);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .skill-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .skill-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .skill-card:nth-child(2) .skill-icon { background: var(--success); }
+        .skill-card:nth-child(3) .skill-icon { background: var(--info); }
+        .skill-card:nth-child(4) .skill-icon { background: var(--warning); }
+        .skill-card:nth-child(5) .skill-icon { background: var(--text-secondary); }
+        .skill-card:nth-child(6) .skill-icon { background: var(--accent); }
+
+        .skill-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .skill-list {
+            list-style: none;
+        }
+
+        .skill-list li {
+            position: relative;
+            padding: 10px 0 10px 24px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .skill-list li:last-child {
+            border-bottom: none;
+        }
+
+        .skill-list li::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .skill-list li:hover {
+            padding-left: 28px;
+            color: var(--text-primary);
+        }
+
+        /* ===== CONTACT SECTION ===== */
+        .contact {
+            background: linear-gradient(135deg, #0F0F23 0%, #1a1a3a 100%);
+            color: white;
+        }
+
+        .contact-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 60px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-icon {
+            font-size: 4rem;
+            margin-bottom: 24px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .contact-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .contact-description {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .contact-methods {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .contact-method {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .contact-method:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .contact-method-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .contact-method-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .contact-method-info {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #0a0a1a;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-brand p {
+            opacity: 0.7;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .footer-nav h4 {
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+        }
+
+        .footer-nav a {
+            display: block;
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            padding: 8px 0;
+            transition: color 0.3s ease;
+        }
+
+        .footer-nav a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-bottom p {
+            opacity: 0.6;
+            font-size: 0.9rem;
+        }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-to-top.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .back-to-top:hover {
+            background: var(--primary-hover);
+            transform: translateY(-5px);
+        }
+
+        /* ===== MOBILE MENU ===== */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--nav-text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+            z-index: 10000;
+            transition: left 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 32px;
+        }
+
+        .mobile-nav.active {
+            left: 0;
+        }
+
+        .mobile-nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .mobile-nav-close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulseRing {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.3); opacity: 0; }
+        }
+
+        @keyframes floatSkill {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-visual {
+                display: none;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                flex-direction: row !important;
+            }
+
+            .timeline-content {
+                width: auto;
+                margin-left: 60px;
+                margin-right: 0;
+            }
+
+            .timeline-dot {
+                left: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .section {
+                padding: 60px 0;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-methods {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader"></div>
+        <p class="loading-text">Carregando portfolio...</p>
+    </div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">Thiago Carvalho</a>
+            <ul class="nav-links">
+                <li><a href="#about">Sobre</a></li>
+                <li><a href="#experience">Experiencia</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contato</a></li>
+                <li>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                        <span id="themeIcon">&#x1F319;</span>
+                    </button>
+                </li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">&#9776;</button>
+        </div>
+    </nav>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobileNav">
+        <button class="mobile-nav-close" id="mobileNavClose">&times;</button>
+        <a href="#about">Sobre</a>
+        <a href="#experience">Experiencia</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contato</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Disponivel para projetos</span>
+                </div>
+
+                <h1 class="hero-title">
+                    Ola, eu sou<br>
+                    <span>Thiago Carvalho</span>
+                </h1>
+
+                <h2 class="hero-subtitle">
+                    <span id="typewriter"></span><span class="typewriter-cursor">|</span>
+                </h2>
+
+                <div class="hero-location">
+                    &#x1F4CD; Brasilia, DF - Full Stack Developer no TCDF
+                </div>
+
+                <p class="hero-description">
+                    Engenheiro de Software com mais de <strong>10 anos de experiencia</strong>
+                    solida em tecnologias de ponta, especializado em desenvolvimento
+                    <strong>Frontend e Full Stack</strong>. Dominio em VueJS, ReactJS, Angular e
+                    API Platform.
+                </p>
+
+                <div class="hero-cta">
+                    <a href="#experience" class="btn-primary">
+                        &#x1F4BC; Ver Experiencia
+                    </a>
+                    <a href="#contact" class="btn-secondary">
+                        &#x2709;&#xFE0F; Contato
+                    </a>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://linkedin.com/in/thiagobjcarvalho" target="_blank" class="social-link" aria-label="LinkedIn">in</a>
+                    <a href="https://github.com/thiagobjcarvalho-cw" target="_blank" class="social-link" aria-label="GitHub">gh</a>
+                    <a href="mailto:thiagob.j.carvalho@gmail.com" class="social-link" aria-label="Email">@</a>
+                    <a href="https://wa.me/5561982859870" target="_blank" class="social-link" aria-label="WhatsApp">wa</a>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="avatar-container">
+                    <div class="avatar-ring"></div>
+                    <div class="avatar">TC</div>
+                </div>
+                <div class="floating-skills">
+                    <span class="floating-skill" style="top: 10%; left: 10%;">VueJS</span>
+                    <span class="floating-skill" style="top: 20%; left: 80%;">ReactJS</span>
+                    <span class="floating-skill" style="top: 40%; left: 5%;">Angular</span>
+                    <span class="floating-skill" style="top: 50%; left: 85%;">TypeScript</span>
+                    <span class="floating-skill" style="top: 70%; left: 15%;">PHP</span>
+                    <span class="floating-skill" style="top: 75%; left: 75%;">API Platform</span>
+                    <span class="floating-skill" style="top: 90%; left: 40%;">Vuetify</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">&#x1F464; Sobre Mim</span>
+                <h2 class="section-title">Conheca minha <span>trajetoria</span></h2>
+            </div>
+
+            <div class="about-grid">
+                <div>
+                    <div class="about-card">
+                        <div class="about-header">
+                            <div class="about-avatar">&#x1F468;&#x200D;&#x1F4BB;</div>
+                            <div class="about-info">
+                                <h3>Thiago Carvalho</h3>
+                                <p>Full Stack Developer Sr.</p>
+                            </div>
+                        </div>
+
+                        <p class="about-text">
+                            Como <strong>Full Stack Developer</strong> no Tribunal de Contas do Distrito Federal (TCDF),
+                            atuo no desenvolvimento especializado em <strong>VueJS, API Platform e Vuetify</strong>,
+                            criando aplicacoes robustas e escalaveis para o setor publico com interfaces ricas e responsivas.
+                        </p>
+
+                        <div class="about-alert">
+                            <strong>Filosofia:</strong> Acredito que a tecnologia deve servir as pessoas,
+                            criando solucoes que realmente fazem a diferenca.
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">&#x1F4C5;</div>
+                            <div class="stat-value">10+</div>
+                            <div class="stat-label">Anos Experiencia</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">&#x1F680;</div>
+                            <div class="stat-value">50+</div>
+                            <div class="stat-label">Projetos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">&#x1F4BB;</div>
+                            <div class="stat-value">15+</div>
+                            <div class="stat-label">Tecnologias</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">&#x2764;&#xFE0F;</div>
+                            <div class="stat-value">100%</div>
+                            <div class="stat-label">Dedicacao</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="sidebar-card">
+                        <h4 class="sidebar-title">&#x1F393; Formacao</h4>
+                        <div class="timeline-mini">
+                            <div class="timeline-mini-item">
+                                <div class="timeline-mini-dot"></div>
+                                <h5 class="timeline-mini-title">Tecnologo em Analise e Desenvolvimento</h5>
+                                <p class="timeline-mini-subtitle">Grupo Projecao</p>
+                                <p class="timeline-mini-period">2008 - 2011</p>
+                            </div>
+                            <div class="timeline-mini-item">
+                                <div class="timeline-mini-dot"></div>
+                                <h5 class="timeline-mini-title">Full Stack Developer Sr.</h5>
+                                <p class="timeline-mini-subtitle">Frontend & Backend</p>
+                                <p class="timeline-mini-period">10+ anos experiencia</p>
+                            </div>
+                            <div class="timeline-mini-item">
+                                <div class="timeline-mini-dot"></div>
+                                <h5 class="timeline-mini-title">Symfony & API Platform</h5>
+                                <p class="timeline-mini-subtitle">APIs Robustas</p>
+                                <p class="timeline-mini-period">5+ anos</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cta-card">
+                        <div class="cta-icon">&#x1F4AC;</div>
+                        <h3>Vamos conversar?</h3>
+                        <p>Sempre aberto para discussoes sobre tecnologia</p>
+                        <a href="#contact" class="cta-btn">Entrar em Contato</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="section experience" id="experience">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">&#x1F4BC; Experiencia</span>
+                <h2 class="section-title">Trajetoria <span>Profissional</span></h2>
+            </div>
+
+            <div class="timeline">
+                <!-- TCDF -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-badge">ATUAL</span>
+                        <div class="timeline-period">Jul/2024 - Atual</div>
+                        <h3 class="timeline-role">Full Stack Developer</h3>
+                        <p class="timeline-company">Tribunal de Contas do Distrito Federal - TCDF</p>
+                        <p class="timeline-location">&#x1F4CD; Brasilia, DF - Home Office</p>
+                        <p class="timeline-description">
+                            Desenvolvedor Full Stack especializado na criacao e gerenciamento de aplicacoes
+                            robustas e escalaveis utilizando VueJS, API Platform e Vuetify.
+                        </p>
+                        <ul class="timeline-achievements">
+                            <li>Desenvolvimento Full Stack com VueJS e API Platform</li>
+                            <li>Interfaces ricas e responsivas com Vuetify</li>
+                            <li>Aplicacoes escalaveis para setor publico</li>
+                        </ul>
+                        <div class="timeline-tech">
+                            <span class="tech-tag">VueJS</span>
+                            <span class="tech-tag">API Platform</span>
+                            <span class="tech-tag">Vuetify</span>
+                            <span class="tech-tag">TypeScript</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fretebras -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-period">Fev/2023 - Fev/2024</div>
+                        <h3 class="timeline-role">Analista de Desenvolvimento Senior</h3>
+                        <p class="timeline-company">Fretebras</p>
+                        <p class="timeline-location">&#x1F4CD; Valparaiso de Goias - Hibrido</p>
+                        <p class="timeline-description">
+                            Atuacao como analista desenvolvedor senior em sistema de gestao de fretes,
+                            focado em solucoes para logistica e transporte.
+                        </p>
+                        <ul class="timeline-achievements">
+                            <li>Sistemas de gestao de fretes</li>
+                            <li>Desenvolvimento Frontend avancado</li>
+                            <li>Integracao com APIs de logistica</li>
+                        </ul>
+                        <div class="timeline-tech">
+                            <span class="tech-tag">Frontend</span>
+                            <span class="tech-tag">APIs</span>
+                            <span class="tech-tag">Microservices</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SysMap -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-period">Jan/2022 - Out/2022</div>
+                        <h3 class="timeline-role">Analista Desenvolvedor Sr</h3>
+                        <p class="timeline-company">SysMap Solutions</p>
+                        <p class="timeline-location">&#x1F4CD; Brasilia, DF - Hibrido</p>
+                        <p class="timeline-description">
+                            Analista Desenvolvedor Sr React atuando nas empresas Editora FTD e Renner,
+                            desenvolvendo solucoes frontend para grandes varejistas.
+                        </p>
+                        <ul class="timeline-achievements">
+                            <li>Desenvolvimento ReactJS para Editora FTD</li>
+                            <li>Sistemas para Renner (varejo)</li>
+                            <li>Arquitetura frontend escalavel</li>
+                        </ul>
+                        <div class="timeline-tech">
+                            <span class="tech-tag">ReactJS</span>
+                            <span class="tech-tag">Redux</span>
+                            <span class="tech-tag">TypeScript</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coopersystem -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-period">Jun/2019 - Fev/2022</div>
+                        <h3 class="timeline-role">Analista Desenvolvedor</h3>
+                        <p class="timeline-company">Coopersystem</p>
+                        <p class="timeline-location">&#x1F4CD; Distrito Federal - Hibrido</p>
+                        <p class="timeline-description">
+                            Analista desenvolvedor Sr. Frontend (ReactJS) atuando em cooperativa,
+                            com projetos para diversos clientes do setor publico e privado.
+                        </p>
+                        <ul class="timeline-achievements">
+                            <li>Especialista Frontend ReactJS</li>
+                            <li>Projetos para setor publico</li>
+                            <li>Metodologias ageis</li>
+                        </ul>
+                        <div class="timeline-tech">
+                            <span class="tech-tag">ReactJS</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">SASS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="section skills" id="skills">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">&#x1F4BB; Skills</span>
+                <h2 class="section-title">Competencias <span>Tecnicas</span></h2>
+            </div>
+
+            <div class="skills-grid">
+                <!-- Frontend -->
+                <div class="skill-card">
+                    <div class="skill-header">
+                        <div class="skill-icon">&#x269B;&#xFE0F;</div>
+                        <h3 class="skill-title">Frontend Frameworks</h3>
+                    </div>
+                    <ul class="skill-list">
+                        <li>VueJS (Vue 2 & 3, Composition API, Vuetify)</li>
+                        <li>ReactJS (Hooks, Context, Redux)</li>
+                        <li>Angular (AngularJS, Angular 10+)</li>
+                        <li>TypeScript / JavaScript ES6+</li>
+                        <li>CSS3, HTML5, SASS</li>
+                    </ul>
+                </div>
+
+                <!-- Backend -->
+                <div class="skill-card">
+                    <div class="skill-header">
+                        <div class="skill-icon">&#x1F5A5;&#xFE0F;</div>
+                        <h3 class="skill-title">Backend & APIs</h3>
+                    </div>
+                    <ul class="skill-list">
+                        <li>PHP (Laravel, MVC)</li>
+                        <li>API Platform (Symfony)</li>
+                        <li>RESTful APIs</li>
+                        <li>Node.js & Express</li>
+                        <li>Microservices Architecture</li>
+                    </ul>
+                </div>
+
+                <!-- Databases -->
+                <div class="skill-card">
+                    <div class="skill-header">
+                        <div class="skill-icon">&#x1F5C4;&#xFE0F;</div>
+                        <h3 class="skill-title">Databases</h3>
+                    </div>
+                    <ul class="skill-list">
+                        <li>PostgreSQL</li>
+                        <li>MySQL</li>
+                        <li>Oracle Database</li>
+                        <li>MongoDB</li>
+                        <li>Database Optimization</li>
+                    </ul>
+                </div>
+
+                <!-- DevOps -->
+                <div class="skill-card">
+                    <div class="skill-header">
+                        <div class="skill-icon">&#x1F6E0;&#xFE0F;</div>
+                        <h3 class="skill-title">Tools & DevOps</h3>
+                    </div>
+                    <ul class="skill-list">
+                        <li>Git & Version Control</li>
+                        <li>Docker & Containers</li>
+                        <li>CI/CD Pipelines</li>
+                        <li>Linux Administration</li>
+                        <li>Webpack & Build Tools</li>
+                    </ul>
+                </div>
+
+                <!-- Professional -->
+                <div class="skill-card">
+                    <div class="skill-header">
+                        <div class="skill-icon">&#x1F454;</div>
+                        <h3 class="skill-title">Professional Skills</h3>
+                    </div>
+                    <ul class="skill-list">
+                        <li>Software Architecture</li>
+                        <li>Full Stack Development</li>
+                        <li>Agile Methodologies</li>
+                        <li>Code Review</li>
+                        <li>Technical Leadership</li>
+                    </ul>
+                </div>
+
+                <!-- Specialized -->
+                <div class="skill-card">
+                    <div class="skill-header">
+                        <div class="skill-icon">&#x1F3AF;</div>
+                        <h3 class="skill-title">Specialized Areas</h3>
+                    </div>
+                    <ul class="skill-list">
+                        <li>Government Systems</li>
+                        <li>E-commerce Solutions</li>
+                        <li>Educational Platforms</li>
+                        <li>Financial Systems</li>
+                        <li>Logistics & Transportation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: white;">
+                    &#x2709;&#xFE0F; Contato
+                </span>
+                <h2 class="section-title" style="color: white;">
+                    Vamos trabalhar <span style="color: #F59E0B;">juntos?</span>
+                </h2>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon">&#x1F680;</div>
+                <h3 class="contact-title">Pronto para o proximo projeto?</h3>
+                <p class="contact-description">
+                    Sempre aberto para discussoes sobre tecnologia, inovacao e novos desafios.
+                    Vamos criar algo incrivel juntos!
+                </p>
+
+                <div class="contact-methods">
+                    <a href="mailto:thiagob.j.carvalho@gmail.com" class="contact-method">
+                        <div class="contact-method-icon">&#x1F4E7;</div>
+                        <div class="contact-method-title">Email</div>
+                        <div class="contact-method-info">thiagob.j.carvalho@gmail.com</div>
+                    </a>
+                    <a href="https://linkedin.com/in/thiagobjcarvalho" target="_blank" class="contact-method">
+                        <div class="contact-method-icon">&#x1F4BC;</div>
+                        <div class="contact-method-title">LinkedIn</div>
+                        <div class="contact-method-info">/in/thiagobjcarvalho</div>
+                    </a>
+                    <a href="https://github.com/thiagobjcarvalho-cw" target="_blank" class="contact-method">
+                        <div class="contact-method-icon">&#x1F517;</div>
+                        <div class="contact-method-title">GitHub</div>
+                        <div class="contact-method-info">/thiagobjcarvalho-cw</div>
+                    </a>
+                    <a href="https://wa.me/5561982859870" target="_blank" class="contact-method">
+                        <div class="contact-method-icon">&#x1F4F1;</div>
+                        <div class="contact-method-title">WhatsApp</div>
+                        <div class="contact-method-info">+55 61 98285-9870</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Thiago Carvalho</h3>
+                    <p>
+                        Full Stack Developer com mais de 10 anos de experiencia criando solucoes
+                        digitais inovadoras. Especializado em VueJS, ReactJS, Angular e API Platform.
+                    </p>
+                    <div class="social-links">
+                        <a href="https://linkedin.com/in/thiagobjcarvalho" target="_blank" class="social-link">in</a>
+                        <a href="https://github.com/thiagobjcarvalho-cw" target="_blank" class="social-link">gh</a>
+                        <a href="mailto:thiagob.j.carvalho@gmail.com" class="social-link">@</a>
+                    </div>
+                </div>
+                <div class="footer-nav">
+                    <h4>Navegacao</h4>
+                    <a href="#about">Sobre Mim</a>
+                    <a href="#experience">Experiencia</a>
+                    <a href="#skills">Competencias</a>
+                    <a href="#contact">Contato</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Thiago Carvalho. Full Stack Developer - 10+ anos de experiencia - Brasilia, DF</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <button class="back-to-top" id="backToTop" aria-label="Voltar ao topo">&#x2191;</button>
+
+    <script>
+        // ===== LOADING SCREEN =====
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+            }, 1500);
+        });
+
+        // ===== TYPEWRITER EFFECT =====
+        const typewriterTexts = [
+            'Full Stack Developer Sr.',
+            'Especialista em VueJS',
+            'Expert em ReactJS',
+            'Desenvolvedor Angular',
+            'API Platform Master'
+        ];
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function typewrite() {
+            const current = typewriterTexts[textIndex];
+            const display = document.getElementById('typewriter');
+
+            if (!isDeleting && charIndex < current.length) {
+                display.textContent = current.substring(0, charIndex + 1);
+                charIndex++;
+                setTimeout(typewrite, 100);
+            } else if (isDeleting && charIndex > 0) {
+                display.textContent = current.substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(typewrite, 50);
+            } else if (!isDeleting && charIndex === current.length) {
+                setTimeout(() => {
+                    isDeleting = true;
+                    typewrite();
+                }, 2000);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % typewriterTexts.length;
+                setTimeout(typewrite, 200);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', typewrite);
+
+        // ===== THEME TOGGLE =====
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        let isDark = false;
+
+        themeToggle.addEventListener('click', () => {
+            isDark = !isDark;
+            document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            themeIcon.textContent = isDark ? '\u2600\uFE0F' : '\uD83C\uDF19';
+        });
+
+        // ===== SCROLL PROGRESS =====
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('scrollProgress').style.width = scrolled + '%';
+        });
+
+        // ===== BACK TO TOP =====
+        const backToTop = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ===== MOBILE MENU =====
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileNav = document.getElementById('mobileNav');
+        const mobileNavClose = document.getElementById('mobileNavClose');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileNav.classList.add('active');
+        });
+
+        mobileNavClose.addEventListener('click', () => {
+            mobileNav.classList.remove('active');
+        });
+
+        mobileNav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNav.classList.remove('active');
+            });
+        });
+
+        // ===== SMOOTH SCROLL =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ===== FLOATING SKILLS ANIMATION =====
+        document.querySelectorAll('.floating-skill').forEach((skill, i) => {
+            skill.style.animationDelay = (i * 0.3) + 's';
+
+            skill.addEventListener('click', () => {
+                skill.style.transform = 'scale(1.2) rotate(360deg)';
+                skill.style.background = `hsl(${Math.random() * 360}, 70%, 60%)`;
+                skill.style.color = 'white';
+
+                setTimeout(() => {
+                    skill.style.transform = '';
+                    skill.style.background = '';
+                    skill.style.color = '';
+                }, 600);
+            });
+        });
+
+        console.log('Portfolio Premium loaded successfully!');
+    </script>
+</body>
+</html>

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thiago Carvalho | Full Stack Developer Senior</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        accent: '#FF6B35',
+                        success: '#10B981',
+                    },
+                    animation: {
+                        'gradient': 'gradient 8s ease infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 2s infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'reveal': 'reveal 1s ease-out forwards',
+                        'slide-up': 'slideUp 0.8s ease-out forwards',
+                        'slide-left': 'slideLeft 0.8s ease-out forwards',
+                        'slide-right': 'slideRight 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        gradient: {
+                            '0%, 100%': { backgroundPosition: '0% 50%' },
+                            '50%': { backgroundPosition: '100% 50%' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        reveal: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(50px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideLeft: {
+                            '0%': { opacity: '0', transform: 'translateX(50px)' },
+                            '100%': { opacity: '1', transform: 'translateX(0)' },
+                        },
+                        slideRight: {
+                            '0%': { opacity: '0', transform: 'translateX(-50px)' },
+                            '100%': { opacity: '1', transform: 'translateX(0)' },
+                        },
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        /* Animated Gradient Background */
+        .gradient-bg {
+            background: linear-gradient(-45deg, #3B82F6, #8B5CF6, #FF6B35, #10B981);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+
+        /* Mesh Background */
+        .mesh-bg {
+            background-color: #0f172a;
+            background-image:
+                radial-gradient(at 40% 20%, rgba(59, 130, 246, 0.3) 0px, transparent 50%),
+                radial-gradient(at 80% 0%, rgba(139, 92, 246, 0.3) 0px, transparent 50%),
+                radial-gradient(at 0% 50%, rgba(255, 107, 53, 0.3) 0px, transparent 50%),
+                radial-gradient(at 80% 50%, rgba(16, 185, 129, 0.3) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(59, 130, 246, 0.3) 0px, transparent 50%),
+                radial-gradient(at 80% 100%, rgba(139, 92, 246, 0.3) 0px, transparent 50%);
+        }
+
+        .mesh-bg-light {
+            background-color: #f8fafc;
+            background-image:
+                radial-gradient(at 40% 20%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
+                radial-gradient(at 80% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
+                radial-gradient(at 0% 50%, rgba(255, 107, 53, 0.15) 0px, transparent 50%),
+                radial-gradient(at 80% 50%, rgba(16, 185, 129, 0.15) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
+                radial-gradient(at 80% 100%, rgba(139, 92, 246, 0.15) 0px, transparent 50%);
+        }
+
+        /* Glassmorphism Card */
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .glass-light {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .dark .glass {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Text Gradient */
+        .text-gradient {
+            background: linear-gradient(135deg, #3B82F6, #FF6B35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Parallax floating elements */
+        .parallax {
+            transition: transform 0.3s ease-out;
+        }
+
+        /* Reveal animation on scroll */
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal-element.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #3B82F6;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF6B35;
+        }
+
+        /* Typing animation */
+        .typing-text {
+            overflow: hidden;
+            border-right: 3px solid #3B82F6;
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #3B82F6 }
+        }
+    </style>
+</head>
+<body class="dark">
+    <!-- Main Container -->
+    <div id="app" class="min-h-screen transition-all duration-500 mesh-bg dark:mesh-bg">
+
+        <!-- Floating Background Elements -->
+        <div class="fixed inset-0 overflow-hidden pointer-events-none">
+            <div class="parallax absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-float"></div>
+            <div class="parallax absolute top-40 right-20 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-float-delayed"></div>
+            <div class="parallax absolute bottom-20 left-1/3 w-80 h-80 bg-success/20 rounded-full blur-3xl animate-float"></div>
+            <div class="parallax absolute bottom-40 right-1/4 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl animate-float-delayed"></div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="fixed top-0 left-0 right-0 z-50 px-6 py-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="glass dark:glass rounded-2xl px-6 py-3 flex items-center justify-between">
+                    <a href="#" class="text-2xl font-bold text-gradient">TC</a>
+                    <div class="hidden md:flex items-center space-x-8">
+                        <a href="#about" class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">About</a>
+                        <a href="#experience" class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">Experience</a>
+                        <a href="#skills" class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">Skills</a>
+                        <a href="#contact" class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">Contact</a>
+                    </div>
+                    <button id="theme-toggle" class="p-2 rounded-full glass dark:glass hover:scale-110 transition-transform">
+                        <svg id="sun-icon" class="w-6 h-6 text-yellow-500 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <svg id="moon-icon" class="w-6 h-6 text-gray-700 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section id="hero" class="relative min-h-screen flex items-center justify-center px-6 pt-20">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="reveal-element">
+                    <div class="inline-flex items-center px-4 py-2 rounded-full glass dark:glass mb-8">
+                        <span class="w-2 h-2 bg-success rounded-full animate-pulse mr-2"></span>
+                        <span class="text-sm text-gray-700 dark:text-gray-300">Available for new projects</span>
+                    </div>
+                </div>
+
+                <h1 class="reveal-element text-5xl md:text-7xl font-bold mb-6">
+                    <span class="text-gray-900 dark:text-white">Hi, I'm </span>
+                    <span class="text-gradient">Thiago Carvalho</span>
+                </h1>
+
+                <div class="reveal-element h-12 md:h-16 mb-8 overflow-hidden">
+                    <p class="text-xl md:text-3xl text-gray-600 dark:text-gray-400 typing-text inline-block">
+                        Full Stack Developer Senior
+                    </p>
+                </div>
+
+                <p class="reveal-element text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
+                    Creating exceptional digital experiences with 10+ years of expertise in modern web technologies. Based in Brasilia, DF.
+                </p>
+
+                <div class="reveal-element flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="#contact" class="px-8 py-4 bg-gradient-to-r from-primary to-accent text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-primary/50 transform hover:-translate-y-1 transition-all duration-300">
+                        Get in Touch
+                    </a>
+                    <a href="#experience" class="px-8 py-4 glass dark:glass rounded-xl font-semibold text-gray-700 dark:text-white hover:scale-105 transition-transform">
+                        View My Work
+                    </a>
+                </div>
+
+                <!-- Scroll Indicator -->
+                <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+                    <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="relative py-32 px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="reveal-element text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">About Me</h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="reveal-element">
+                        <div class="relative">
+                            <div class="glass dark:glass rounded-3xl p-8 transform hover:scale-105 transition-transform duration-300">
+                                <div class="w-48 h-48 mx-auto rounded-full bg-gradient-to-r from-primary to-accent p-1">
+                                    <div class="w-full h-full rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                                        <span class="text-6xl font-bold text-gradient">TC</span>
+                                    </div>
+                                </div>
+                                <div class="mt-6 text-center">
+                                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Thiago Carvalho</h3>
+                                    <p class="text-accent font-semibold">Full Stack Developer Senior</p>
+                                    <div class="flex items-center justify-center mt-2 text-gray-600 dark:text-gray-400">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                        Brasilia, DF
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Decorative elements -->
+                            <div class="absolute -top-4 -right-4 w-8 h-8 bg-accent rounded-full animate-float"></div>
+                            <div class="absolute -bottom-4 -left-4 w-6 h-6 bg-primary rounded-full animate-float-delayed"></div>
+                        </div>
+                    </div>
+
+                    <div class="reveal-element space-y-6">
+                        <p class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                            I'm a passionate Full Stack Developer with over a decade of experience building modern, scalable web applications. Currently working at <span class="text-primary font-semibold">TCDF</span>, I specialize in creating seamless user experiences and robust backend solutions.
+                        </p>
+                        <p class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                            My journey in software development has equipped me with expertise in various technologies, from frontend frameworks like VueJS, ReactJS, and Angular to backend solutions with PHP and API Platform.
+                        </p>
+
+                        <!-- Stats -->
+                        <div class="grid grid-cols-3 gap-4 pt-6">
+                            <div class="glass dark:glass rounded-xl p-4 text-center transform hover:scale-105 transition-transform">
+                                <div class="text-3xl font-bold text-primary">10+</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Years Exp.</div>
+                            </div>
+                            <div class="glass dark:glass rounded-xl p-4 text-center transform hover:scale-105 transition-transform">
+                                <div class="text-3xl font-bold text-accent">50+</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Projects</div>
+                            </div>
+                            <div class="glass dark:glass rounded-xl p-4 text-center transform hover:scale-105 transition-transform">
+                                <div class="text-3xl font-bold text-success">100%</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Dedication</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="relative py-32 px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="reveal-element text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">Experience</h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
+                </div>
+
+                <div class="relative">
+                    <!-- Timeline line -->
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-primary via-accent to-success rounded-full hidden md:block"></div>
+
+                    <!-- Timeline items -->
+                    <div class="space-y-12">
+                        <!-- Current Position -->
+                        <div class="reveal-element relative">
+                            <div class="md:flex items-center">
+                                <div class="md:w-1/2 md:pr-12 md:text-right">
+                                    <div class="glass dark:glass rounded-2xl p-6 transform hover:scale-105 hover:shadow-xl hover:shadow-primary/20 transition-all duration-300">
+                                        <div class="inline-block px-3 py-1 bg-primary/20 text-primary rounded-full text-sm font-semibold mb-3">
+                                            Current
+                                        </div>
+                                        <h3 class="text-xl font-bold text-gray-900 dark:text-white">Full Stack Developer Senior</h3>
+                                        <p class="text-accent font-semibold">TCDF</p>
+                                        <p class="text-gray-600 dark:text-gray-400 mt-2">
+                                            Leading development of enterprise applications, implementing modern architectures, and mentoring junior developers.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="hidden md:flex w-8 h-8 absolute left-1/2 transform -translate-x-1/2 bg-primary rounded-full items-center justify-center">
+                                    <div class="w-3 h-3 bg-white rounded-full"></div>
+                                </div>
+                                <div class="md:w-1/2 md:pl-12"></div>
+                            </div>
+                        </div>
+
+                        <!-- Previous Experience -->
+                        <div class="reveal-element relative">
+                            <div class="md:flex items-center">
+                                <div class="md:w-1/2 md:pr-12"></div>
+                                <div class="hidden md:flex w-8 h-8 absolute left-1/2 transform -translate-x-1/2 bg-accent rounded-full items-center justify-center">
+                                    <div class="w-3 h-3 bg-white rounded-full"></div>
+                                </div>
+                                <div class="md:w-1/2 md:pl-12">
+                                    <div class="glass dark:glass rounded-2xl p-6 transform hover:scale-105 hover:shadow-xl hover:shadow-accent/20 transition-all duration-300">
+                                        <div class="inline-block px-3 py-1 bg-accent/20 text-accent rounded-full text-sm font-semibold mb-3">
+                                            2018 - 2022
+                                        </div>
+                                        <h3 class="text-xl font-bold text-gray-900 dark:text-white">Senior Developer</h3>
+                                        <p class="text-accent font-semibold">Tech Company</p>
+                                        <p class="text-gray-600 dark:text-gray-400 mt-2">
+                                            Developed scalable web applications using modern JavaScript frameworks and PHP backends.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earlier Experience -->
+                        <div class="reveal-element relative">
+                            <div class="md:flex items-center">
+                                <div class="md:w-1/2 md:pr-12 md:text-right">
+                                    <div class="glass dark:glass rounded-2xl p-6 transform hover:scale-105 hover:shadow-xl hover:shadow-success/20 transition-all duration-300">
+                                        <div class="inline-block px-3 py-1 bg-success/20 text-success rounded-full text-sm font-semibold mb-3">
+                                            2014 - 2018
+                                        </div>
+                                        <h3 class="text-xl font-bold text-gray-900 dark:text-white">Full Stack Developer</h3>
+                                        <p class="text-accent font-semibold">Software House</p>
+                                        <p class="text-gray-600 dark:text-gray-400 mt-2">
+                                            Built custom web solutions for various clients, focusing on clean code and user experience.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="hidden md:flex w-8 h-8 absolute left-1/2 transform -translate-x-1/2 bg-success rounded-full items-center justify-center">
+                                    <div class="w-3 h-3 bg-white rounded-full"></div>
+                                </div>
+                                <div class="md:w-1/2 md:pl-12"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="relative py-32 px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="reveal-element text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">Skills & Technologies</h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                    <!-- VueJS -->
+                    <div class="reveal-element glass dark:glass rounded-2xl p-6 text-center transform hover:scale-110 hover:shadow-xl hover:shadow-success/20 transition-all duration-300 group">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-success/20 to-success/40 flex items-center justify-center group-hover:from-success/40 group-hover:to-success/60 transition-all">
+                            <svg class="w-10 h-10 text-success" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 12.765l-7.5-13.765h3.75l3.75 6.885 3.75-6.885h3.75l-7.5 13.765zm0 0l7.5 10.235h-3.75l-3.75-5.115-3.75 5.115h-3.75l7.5-10.235z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-gray-900 dark:text-white">VueJS</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Expert</p>
+                    </div>
+
+                    <!-- ReactJS -->
+                    <div class="reveal-element glass dark:glass rounded-2xl p-6 text-center transform hover:scale-110 hover:shadow-xl hover:shadow-primary/20 transition-all duration-300 group">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center group-hover:from-primary/40 group-hover:to-primary/60 transition-all">
+                            <svg class="w-10 h-10 text-primary" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 13.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                                <ellipse cx="12" cy="12" rx="10" ry="4.5" stroke="currentColor" fill="none" stroke-width="1"/>
+                                <ellipse cx="12" cy="12" rx="10" ry="4.5" stroke="currentColor" fill="none" stroke-width="1" transform="rotate(60 12 12)"/>
+                                <ellipse cx="12" cy="12" rx="10" ry="4.5" stroke="currentColor" fill="none" stroke-width="1" transform="rotate(120 12 12)"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-gray-900 dark:text-white">ReactJS</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Expert</p>
+                    </div>
+
+                    <!-- Angular -->
+                    <div class="reveal-element glass dark:glass rounded-2xl p-6 text-center transform hover:scale-110 hover:shadow-xl hover:shadow-red-500/20 transition-all duration-300 group">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-red-500/20 to-red-500/40 flex items-center justify-center group-hover:from-red-500/40 group-hover:to-red-500/60 transition-all">
+                            <svg class="w-10 h-10 text-red-500" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2L2 7l1.5 12.5L12 22l8.5-2.5L22 7l-10-5zm0 2.1L19.5 7.5 18.3 17.4 12 19.9l-6.3-2.5-1.2-9.9L12 4.1zm0 2.9l-4 8h1.5l.8-2h3.4l.8 2H16l-4-8zm0 2.4l1.2 2.6h-2.4L12 9.4z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-gray-900 dark:text-white">Angular</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Advanced</p>
+                    </div>
+
+                    <!-- TypeScript -->
+                    <div class="reveal-element glass dark:glass rounded-2xl p-6 text-center transform hover:scale-110 hover:shadow-xl hover:shadow-blue-600/20 transition-all duration-300 group">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-blue-600/20 to-blue-600/40 flex items-center justify-center group-hover:from-blue-600/40 group-hover:to-blue-600/60 transition-all">
+                            <span class="text-2xl font-bold text-blue-600">TS</span>
+                        </div>
+                        <h3 class="font-bold text-gray-900 dark:text-white">TypeScript</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Expert</p>
+                    </div>
+
+                    <!-- PHP -->
+                    <div class="reveal-element glass dark:glass rounded-2xl p-6 text-center transform hover:scale-110 hover:shadow-xl hover:shadow-purple-500/20 transition-all duration-300 group">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-500/40 flex items-center justify-center group-hover:from-purple-500/40 group-hover:to-purple-500/60 transition-all">
+                            <span class="text-2xl font-bold text-purple-500">PHP</span>
+                        </div>
+                        <h3 class="font-bold text-gray-900 dark:text-white">PHP</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Expert</p>
+                    </div>
+
+                    <!-- API Platform -->
+                    <div class="reveal-element glass dark:glass rounded-2xl p-6 text-center transform hover:scale-110 hover:shadow-xl hover:shadow-accent/20 transition-all duration-300 group">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-accent/20 to-accent/40 flex items-center justify-center group-hover:from-accent/40 group-hover:to-accent/60 transition-all">
+                            <svg class="w-10 h-10 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-gray-900 dark:text-white">API Platform</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Advanced</p>
+                    </div>
+                </div>
+
+                <!-- Additional Skills -->
+                <div class="reveal-element mt-12">
+                    <div class="glass dark:glass rounded-2xl p-8">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6 text-center">Other Technologies</h3>
+                        <div class="flex flex-wrap justify-center gap-3">
+                            <span class="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium hover:bg-primary/20 transition-colors">Node.js</span>
+                            <span class="px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-medium hover:bg-accent/20 transition-colors">REST APIs</span>
+                            <span class="px-4 py-2 bg-success/10 text-success rounded-full text-sm font-medium hover:bg-success/20 transition-colors">GraphQL</span>
+                            <span class="px-4 py-2 bg-purple-500/10 text-purple-500 rounded-full text-sm font-medium hover:bg-purple-500/20 transition-colors">MySQL</span>
+                            <span class="px-4 py-2 bg-blue-600/10 text-blue-600 rounded-full text-sm font-medium hover:bg-blue-600/20 transition-colors">PostgreSQL</span>
+                            <span class="px-4 py-2 bg-red-500/10 text-red-500 rounded-full text-sm font-medium hover:bg-red-500/20 transition-colors">Docker</span>
+                            <span class="px-4 py-2 bg-yellow-500/10 text-yellow-600 rounded-full text-sm font-medium hover:bg-yellow-500/20 transition-colors">Git</span>
+                            <span class="px-4 py-2 bg-cyan-500/10 text-cyan-600 rounded-full text-sm font-medium hover:bg-cyan-500/20 transition-colors">Tailwind CSS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="relative py-32 px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="reveal-element text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">Get In Touch</h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
+                    <p class="mt-6 text-lg text-gray-600 dark:text-gray-400">
+                        Have a project in mind? Let's work together to create something amazing.
+                    </p>
+                </div>
+
+                <div class="reveal-element">
+                    <div class="glass dark:glass rounded-3xl p-8 md:p-12">
+                        <form class="space-y-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Name</label>
+                                    <input type="text" class="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-gray-900 dark:text-white" placeholder="Your name">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
+                                    <input type="email" class="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-gray-900 dark:text-white" placeholder="your@email.com">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Subject</label>
+                                <input type="text" class="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-gray-900 dark:text-white" placeholder="Project inquiry">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Message</label>
+                                <textarea rows="5" class="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all resize-none text-gray-900 dark:text-white" placeholder="Tell me about your project..."></textarea>
+                            </div>
+                            <button type="submit" class="w-full py-4 bg-gradient-to-r from-primary to-accent text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-primary/50 transform hover:-translate-y-1 transition-all duration-300">
+                                Send Message
+                            </button>
+                        </form>
+
+                        <!-- Contact Info -->
+                        <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+                            <div class="grid md:grid-cols-3 gap-6 text-center">
+                                <div class="group">
+                                    <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <h4 class="font-semibold text-gray-900 dark:text-white">Location</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Brasilia, DF</p>
+                                </div>
+                                <div class="group">
+                                    <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                                        <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </div>
+                                    <h4 class="font-semibold text-gray-900 dark:text-white">Email</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">thiago@email.com</p>
+                                </div>
+                                <div class="group">
+                                    <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-success/10 flex items-center justify-center group-hover:bg-success/20 transition-colors">
+                                        <svg class="w-6 h-6 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </div>
+                                    <h4 class="font-semibold text-gray-900 dark:text-white">Company</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">TCDF</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="relative py-8 px-6 border-t border-gray-200 dark:border-gray-800">
+            <div class="max-w-6xl mx-auto text-center">
+                <p class="text-gray-600 dark:text-gray-400">
+                    &copy; 2024 Thiago Carvalho. All rights reserved.
+                </p>
+                <div class="flex justify-center space-x-6 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // Check for saved theme preference or default to dark
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        body.classList.toggle('dark', savedTheme === 'dark');
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark');
+            const isDark = body.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+
+        // Scroll Reveal Animation
+        const revealElements = document.querySelectorAll('.reveal-element');
+
+        const revealOnScroll = () => {
+            revealElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('visible');
+                }
+            });
+        };
+
+        // Initial check
+        revealOnScroll();
+
+        // Listen to scroll
+        window.addEventListener('scroll', revealOnScroll);
+
+        // Parallax Effect for Floating Elements
+        const parallaxElements = document.querySelectorAll('.parallax');
+
+        window.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth - 0.5;
+            const mouseY = e.clientY / window.innerHeight - 0.5;
+
+            parallaxElements.forEach((element, index) => {
+                const speed = (index + 1) * 10;
+                const x = mouseX * speed;
+                const y = mouseY * speed;
+                element.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

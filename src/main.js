@@ -470,12 +470,12 @@ const PortfolioApp = {
                   
                   <!-- Social Links Premium -->
                   <div class="d-flex gap-2">
-                    <v-btn 
+                    <v-btn
                       v-for="social in [
-                        {icon: 'mdi-linkedin', url: 'https://linkedin.com/in/thiagobjcarvalho'},
+                        {icon: 'mdi-linkedin', url: 'https://www.linkedin.com/in/thiagobjcarvalho/'},
                         {icon: 'mdi-github', url: 'https://github.com/thiagobjcarvalho-cw'},
                         {icon: 'mdi-email', url: 'mailto:thiagob.j.carvalho@gmail.com'},
-                        {icon: 'mdi-whatsapp', url: 'https://wa.me/5561982859870'}
+                        {icon: 'mdi-whatsapp', url: 'https://api.whatsapp.com/send/?phone=5561982859870&text&type=phone_number&app_absent=0'}
                       ]"
                       :key="social.icon"
                       :icon="social.icon"
@@ -1128,7 +1128,7 @@ const PortfolioApp = {
                            icon: 'mdi-linkedin',
                            title: 'LinkedIn',
                            subtitle: '/in/thiagobjcarvalho',
-                           href: 'https://linkedin.com/in/thiagobjcarvalho',
+                           href: 'https://www.linkedin.com/in/thiagobjcarvalho/',
                            color: 'info'
                          },
                          {
@@ -1142,7 +1142,7 @@ const PortfolioApp = {
                            icon: 'mdi-whatsapp',
                            title: 'WhatsApp',
                            subtitle: '+55 61 98285-9870',
-                           href: 'https://wa.me/5561982859870',
+                           href: 'https://api.whatsapp.com/send/?phone=5561982859870&text&type=phone_number&app_absent=0',
                            color: 'success'
                          }
                        ]"
@@ -1203,9 +1203,10 @@ const PortfolioApp = {
              <div class="d-flex gap-2">
                <v-btn 
                  v-for="social in [
-                   {icon: 'mdi-linkedin', url: 'https://linkedin.com/in/thiagobjcarvalho'},
+                   {icon: 'mdi-linkedin', url: 'https://www.linkedin.com/in/thiagobjcarvalho/'},
                    {icon: 'mdi-github', url: 'https://github.com/thiagobjcarvalho-cw'},
-                   {icon: 'mdi-email', url: 'mailto:thiagob.j.carvalho@gmail.com'}
+                   {icon: 'mdi-email', url: 'mailto:thiagob.j.carvalho@gmail.com'},
+                  {icon: 'mdi-whatsapp', url: 'https://api.whatsapp.com/send/?phone=5561982859870&text&type=phone_number&app_absent=0'}
                  ]"
                  :key="social.icon"
                  :icon="social.icon"

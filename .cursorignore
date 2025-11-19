@@ -1,22 +1,63 @@
+# Dependências e builds
 node_modules/
 dist/
 build/
+.vite/
+.output/
+
+# Arquivos de backup e legado (específicos deste projeto)
+docs/backup/
+docs/legado/
+*.backup
+*.backup[0-9]*
+
+# Assets binários
+*.ico
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.webp
+*.svg
+src/assets/images/
+public/fonts/
+
+# Configurações e logs
 .git/
 .DS_Store
+Thumbs.db
 *.log
 *.tmp
 *.swp
+*.swo
+*~
 .env
 .env.*
-coverage/
+.env.local
+.env.*.local
+
+# Editor e IDE
 .vscode/
 .idea/
 .cache/
+
+# Arquivos temporários e backup
 *.bak
 *.backup
 *.orig
-*.lock
+
+# Lock files (manter package-lock.json para consistência)
 npm-debug.log
 yarn-debug.log
 yarn-error.log
-package-lock.json 
+*.lock
+!package-lock.json
+
+# Coverage e testes
+coverage/
+.nyc_output/
+
+# Docker e deployment
+.docker/
+docker-compose.override.yml
+nginx.conf.backup 

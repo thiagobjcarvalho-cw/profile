@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thiago Carvalho - Bento Grid Portfolio</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Material Design Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --bg-card: #1c1c1e;
+            --text-primary: #ffffff;
+            --text-secondary: #86868b;
+            --accent-blue: #0071e3;
+            --accent-purple: #bf5af2;
+            --accent-green: #30d158;
+            --accent-orange: #ff9f0a;
+            --accent-red: #ff453a;
+            --accent-cyan: #64d2ff;
+            --border-color: rgba(255,255,255,0.1);
+            --card-radius: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Container */
+        .bento-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 20px 40px;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Bento Grid */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: minmax(200px, auto);
+            gap: 16px;
+            margin-top: 100px;
+        }
+
+        .bento-card {
+            background: var(--bg-card);
+            border-radius: var(--card-radius);
+            padding: 32px;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bento-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.02) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        .bento-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Card Sizes */
+        .card-hero {
+            grid-column: span 2;
+            grid-row: span 2;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .card-wide {
+            grid-column: span 2;
+        }
+
+        .card-tall {
+            grid-row: span 2;
+        }
+
+        /* Hero Card Content */
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(48, 209, 88, 0.15);
+            color: var(--accent-green);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 24px;
+            width: fit-content;
+        }
+
+        .hero-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 50%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-width: 400px;
+        }
+
+        /* Avatar Card */
+        .avatar-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #2d1b69 0%, #1a0a3e 100%);
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            font-weight: 700;
+            color: white;
+            border: 4px solid rgba(255,255,255,0.2);
+        }
+
+        .avatar-ring {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 2px solid var(--accent-purple);
+            border-radius: 50%;
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            to { transform: rotate(360deg); }
+        }
+
+        .avatar-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .avatar-role {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Stats Card */
+        .stats-card {
+            background: linear-gradient(135deg, #0d3b66 0%, #0a2540 100%);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            height: 100%;
+        }
+
+        .stat-item {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* Skills Card */
+        .skills-card {
+            background: linear-gradient(135deg, #1a3a1a 0%, #0d1f0d 100%);
+        }
+
+        .skills-card .card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .skills-card .card-title i {
+            font-size: 1.5rem;
+            color: var(--accent-green);
+        }
+
+        .skills-card .card-title h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            background: rgba(48, 209, 88, 0.15);
+            color: var(--accent-green);
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: rgba(48, 209, 88, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* Experience Card */
+        .experience-card {
+            background: linear-gradient(135deg, #3d1a1a 0%, #1f0d0d 100%);
+        }
+
+        .experience-card .card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .experience-card .card-title i {
+            font-size: 1.5rem;
+            color: var(--accent-orange);
+        }
+
+        .experience-card .card-title h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .experience-item {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .experience-item:last-child {
+            border-bottom: none;
+        }
+
+        .experience-period {
+            font-size: 0.75rem;
+            color: var(--accent-orange);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .experience-role {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .experience-company {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Tech Stack Card */
+        .tech-card {
+            background: linear-gradient(135deg, #1a2a3a 0%, #0d1520 100%);
+        }
+
+        .tech-card .card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .tech-card .card-title i {
+            font-size: 1.5rem;
+            color: var(--accent-blue);
+        }
+
+        .tech-card .card-title h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .tech-item {
+            background: rgba(0, 113, 227, 0.1);
+            padding: 16px;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .tech-item:hover {
+            background: rgba(0, 113, 227, 0.2);
+            transform: translateY(-4px);
+        }
+
+        .tech-item i {
+            font-size: 2rem;
+            color: var(--accent-blue);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .tech-item span {
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Contact Card */
+        .contact-card {
+            background: linear-gradient(135deg, #1a1a3a 0%, #0d0d1f 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .contact-card .card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .contact-card .card-title i {
+            font-size: 1.5rem;
+            color: var(--accent-purple);
+        }
+
+        .contact-card .card-title h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 12px 16px;
+            background: rgba(191, 90, 242, 0.1);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            background: rgba(191, 90, 242, 0.2);
+            transform: translateX(8px);
+        }
+
+        .contact-link i {
+            font-size: 1.25rem;
+            color: var(--accent-purple);
+        }
+
+        /* CTA Card */
+        .cta-card {
+            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .cta-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .cta-card p {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            color: var(--accent-blue);
+            padding: 14px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Quote Card */
+        .quote-card {
+            background: linear-gradient(135deg, #2a1a3a 0%, #15101f 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .quote-icon {
+            font-size: 3rem;
+            color: var(--accent-purple);
+            opacity: 0.5;
+            margin-bottom: 16px;
+        }
+
+        .quote-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .footer-social a {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-card);
+            border-radius: 50%;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            background: var(--accent-blue);
+            transform: translateY(-4px);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .card-hero {
+                grid-column: span 2;
+            }
+            .hero-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+            .card-hero, .card-wide {
+                grid-column: span 1;
+            }
+            .card-tall {
+                grid-row: span 1;
+            }
+            .hero-title {
+                font-size: 2rem;
+            }
+            .nav-links {
+                display: none;
+            }
+            .header {
+                padding: 16px 20px;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .tech-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animations on scroll */
+        .bento-card {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .bento-card:nth-child(1) { animation-delay: 0.1s; }
+        .bento-card:nth-child(2) { animation-delay: 0.15s; }
+        .bento-card:nth-child(3) { animation-delay: 0.2s; }
+        .bento-card:nth-child(4) { animation-delay: 0.25s; }
+        .bento-card:nth-child(5) { animation-delay: 0.3s; }
+        .bento-card:nth-child(6) { animation-delay: 0.35s; }
+        .bento-card:nth-child(7) { animation-delay: 0.4s; }
+        .bento-card:nth-child(8) { animation-delay: 0.45s; }
+        .bento-card:nth-child(9) { animation-delay: 0.5s; }
+        .bento-card:nth-child(10) { animation-delay: 0.55s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">TC</div>
+            <nav class="nav-links">
+                <a href="#about">Sobre</a>
+                <a href="#experience">Experiência</a>
+                <a href="#skills">Skills</a>
+                <a href="#contact">Contato</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="bento-container">
+        <div class="bento-grid">
+            <!-- Hero Card -->
+            <article class="bento-card card-hero" id="about">
+                <div class="hero-badge">
+                    <span class="dot"></span>
+                    Disponível para projetos
+                </div>
+                <h1 class="hero-title">
+                    Olá, eu sou<br>
+                    <span>Thiago Carvalho</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Engenheiro de Software com mais de 10 anos de experiência,
+                    especializado em VueJS, ReactJS, Angular e API Platform.
+                </p>
+            </article>
+
+            <!-- Avatar Card -->
+            <article class="bento-card avatar-card">
+                <div class="avatar-wrapper">
+                    <div class="avatar-ring"></div>
+                    <div class="avatar">TC</div>
+                </div>
+                <span class="avatar-name">Thiago Carvalho</span>
+                <span class="avatar-role">Full Stack Developer Sr.</span>
+            </article>
+
+            <!-- Stats Card -->
+            <article class="bento-card stats-card">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-value">10+</span>
+                        <span class="stat-label">Anos Experiência</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">50+</span>
+                        <span class="stat-label">Projetos</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">15+</span>
+                        <span class="stat-label">Tecnologias</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">100%</span>
+                        <span class="stat-label">Dedicação</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Skills Card -->
+            <article class="bento-card skills-card card-wide" id="skills">
+                <div class="card-title">
+                    <i class="mdi mdi-code-tags"></i>
+                    <h3>Tecnologias & Frameworks</h3>
+                </div>
+                <div class="skills-list">
+                    <span class="skill-tag">VueJS</span>
+                    <span class="skill-tag">ReactJS</span>
+                    <span class="skill-tag">Angular</span>
+                    <span class="skill-tag">TypeScript</span>
+                    <span class="skill-tag">PHP</span>
+                    <span class="skill-tag">Laravel</span>
+                    <span class="skill-tag">API Platform</span>
+                    <span class="skill-tag">Vuetify</span>
+                    <span class="skill-tag">Node.js</span>
+                    <span class="skill-tag">PostgreSQL</span>
+                    <span class="skill-tag">Docker</span>
+                    <span class="skill-tag">Git</span>
+                </div>
+            </article>
+
+            <!-- Experience Card -->
+            <article class="bento-card experience-card card-tall" id="experience">
+                <div class="card-title">
+                    <i class="mdi mdi-briefcase"></i>
+                    <h3>Experiência Profissional</h3>
+                </div>
+                <div class="experience-item">
+                    <span class="experience-period">Jul/2024 - Atual</span>
+                    <h4 class="experience-role">Full Stack Developer</h4>
+                    <p class="experience-company">TCDF - Tribunal de Contas</p>
+                </div>
+                <div class="experience-item">
+                    <span class="experience-period">Fev/2023 - Fev/2024</span>
+                    <h4 class="experience-role">Analista Dev Sênior</h4>
+                    <p class="experience-company">Fretebras</p>
+                </div>
+                <div class="experience-item">
+                    <span class="experience-period">Jan/2022 - Out/2022</span>
+                    <h4 class="experience-role">Analista Dev Sr React</h4>
+                    <p class="experience-company">SysMap Solutions</p>
+                </div>
+                <div class="experience-item">
+                    <span class="experience-period">Jun/2019 - Fev/2022</span>
+                    <h4 class="experience-role">Analista Desenvolvedor</h4>
+                    <p class="experience-company">Coopersystem</p>
+                </div>
+            </article>
+
+            <!-- Tech Grid Card -->
+            <article class="bento-card tech-card">
+                <div class="card-title">
+                    <i class="mdi mdi-layers"></i>
+                    <h3>Stack Principal</h3>
+                </div>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <i class="mdi mdi-vuejs"></i>
+                        <span>VueJS</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="mdi mdi-react"></i>
+                        <span>React</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="mdi mdi-angular"></i>
+                        <span>Angular</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="mdi mdi-language-typescript"></i>
+                        <span>TypeScript</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="mdi mdi-language-php"></i>
+                        <span>PHP</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="mdi mdi-docker"></i>
+                        <span>Docker</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Quote Card -->
+            <article class="bento-card quote-card">
+                <i class="mdi mdi-format-quote-open quote-icon"></i>
+                <p class="quote-text">
+                    "Acredito que a tecnologia deve servir às pessoas,
+                    criando soluções que realmente fazem a diferença."
+                </p>
+            </article>
+
+            <!-- Contact Card -->
+            <article class="bento-card contact-card" id="contact">
+                <div class="card-title">
+                    <i class="mdi mdi-send"></i>
+                    <h3>Vamos Conversar</h3>
+                </div>
+                <div class="contact-links">
+                    <a href="mailto:thiagob.j.carvalho@gmail.com" class="contact-link">
+                        <i class="mdi mdi-email"></i>
+                        <span>thiagob.j.carvalho@gmail.com</span>
+                    </a>
+                    <a href="https://linkedin.com/in/thiagobjcarvalho" target="_blank" class="contact-link">
+                        <i class="mdi mdi-linkedin"></i>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="https://github.com/thiagobjcarvalho-cw" target="_blank" class="contact-link">
+                        <i class="mdi mdi-github"></i>
+                        <span>GitHub</span>
+                    </a>
+                </div>
+            </article>
+
+            <!-- CTA Card -->
+            <article class="bento-card cta-card">
+                <h3>Pronto para o próximo projeto?</h3>
+                <p>Vamos criar algo incrível juntos!</p>
+                <a href="https://wa.me/5561982859870" target="_blank" class="cta-btn">
+                    <i class="mdi mdi-whatsapp"></i>
+                    Entrar em Contato
+                </a>
+            </article>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-social">
+            <a href="https://linkedin.com/in/thiagobjcarvalho" target="_blank">
+                <i class="mdi mdi-linkedin"></i>
+            </a>
+            <a href="https://github.com/thiagobjcarvalho-cw" target="_blank">
+                <i class="mdi mdi-github"></i>
+            </a>
+            <a href="mailto:thiagob.j.carvalho@gmail.com">
+                <i class="mdi mdi-email"></i>
+            </a>
+            <a href="https://wa.me/5561982859870" target="_blank">
+                <i class="mdi mdi-whatsapp"></i>
+            </a>
+        </div>
+        <p>© 2024 Thiago Carvalho. Full Stack Developer • Brasília, DF</p>
+    </footer>
+
+    <script>
+        // Hide loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 800);
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Parallax effect on cards
+        document.querySelectorAll('.bento-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px) scale(1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+    </script>
+</body>
+</html>

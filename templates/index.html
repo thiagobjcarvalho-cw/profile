@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thiago Carvalho - Seletor de Templates</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Material Design Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #1a1a2e;
+            --text-primary: #ffffff;
+            --text-secondary: #8a8aa3;
+            --accent-purple: #a855f7;
+            --accent-blue: #3b82f6;
+            --accent-pink: #ec4899;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(168, 85, 247, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+            animation: bgPulse 10s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 24px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            padding: 12px 24px;
+            border-radius: 50px;
+            margin-bottom: 32px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--accent-purple);
+        }
+
+        .header-badge i {
+            font-size: 1.2rem;
+        }
+
+        .header-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .header-title span {
+            background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-blue) 50%, var(--accent-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Templates Grid */
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        /* Template Card */
+        .template-card {
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .template-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .template-card:hover {
+            transform: translateY(-12px);
+            border-color: rgba(168, 85, 247, 0.5);
+            box-shadow: 0 30px 80px rgba(168, 85, 247, 0.2);
+        }
+
+        .template-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Template Preview */
+        .template-preview {
+            position: relative;
+            height: 280px;
+            overflow: hidden;
+            background: var(--bg-dark);
+        }
+
+        .preview-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .template-card:hover .preview-image {
+            transform: scale(1.05);
+        }
+
+        /* Preview Placeholder */
+        .preview-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Bento Grid Preview */
+        .preview-bento {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1c1c1e 100%);
+        }
+
+        .preview-bento .preview-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 8px;
+            width: 80%;
+            height: 70%;
+        }
+
+        .preview-bento .preview-content .box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .preview-bento .preview-content .box:nth-child(1) {
+            grid-column: span 2;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+        }
+
+        .preview-bento .preview-content .box:nth-child(4) {
+            grid-column: span 2;
+            background: linear-gradient(135deg, #0d3b66, #0a2540);
+        }
+
+        /* Cyber Preview */
+        .preview-cyber {
+            background: #0a0a0f;
+            position: relative;
+        }
+
+        .preview-cyber::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .preview-cyber .preview-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .preview-cyber .hex {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #00f0ff, #8b00ff);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .preview-cyber .hex-inner {
+            width: 70px;
+            height: 70px;
+            background: #0a0a0f;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 800;
+            color: #00f0ff;
+            text-shadow: 0 0 20px #00f0ff;
+        }
+
+        .preview-cyber .neon-text {
+            font-size: 0.9rem;
+            color: #00f0ff;
+            text-shadow: 0 0 10px #00f0ff;
+            font-weight: 600;
+        }
+
+        .preview-cyber .neon-line {
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff00ff, transparent);
+            margin: 12px auto;
+        }
+
+        /* Glass Preview */
+        .preview-glass {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            position: relative;
+        }
+
+        .preview-glass .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.5;
+        }
+
+        .preview-glass .orb-1 {
+            width: 120px;
+            height: 120px;
+            background: var(--accent-purple);
+            top: -30px;
+            left: -30px;
+        }
+
+        .preview-glass .orb-2 {
+            width: 100px;
+            height: 100px;
+            background: var(--accent-blue);
+            bottom: -20px;
+            right: -20px;
+        }
+
+        .preview-glass .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 24px;
+            width: 70%;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .preview-glass .avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            border-radius: 50%;
+            margin: 0 auto 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .preview-glass .glass-text {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+        }
+
+        .preview-glass .glass-sub {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 4px;
+        }
+
+        /* Template Info */
+        .template-info {
+            padding: 32px;
+        }
+
+        .template-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .badge-new {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-green);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .badge-popular {
+            background: rgba(236, 72, 153, 0.15);
+            color: var(--accent-pink);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+        }
+
+        .badge-premium {
+            background: rgba(168, 85, 247, 0.15);
+            color: var(--accent-purple);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .template-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .template-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .template-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .feature-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .feature-tag i {
+            font-size: 0.9rem;
+            color: var(--accent-cyan);
+        }
+
+        /* View Button */
+        .view-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            border: none;
+            border-radius: 14px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .view-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 40px rgba(168, 85, 247, 0.4);
+        }
+
+        .view-btn i {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .view-btn:hover i {
+            transform: translateX(5px);
+        }
+
+        /* Back to Main */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            margin-top: 60px;
+            padding: 14px 28px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(-5px);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 60px 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .footer-social a {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            background: var(--accent-purple);
+            transform: translateY(-4px);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .templates-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .header-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .templates-grid {
+                grid-template-columns: 1fr;
+            }
+            .header-title {
+                font-size: 2rem;
+            }
+            .container {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-badge">
+                <i class="mdi mdi-palette"></i>
+                Portfolio Templates
+            </div>
+            <h1 class="header-title">
+                Escolha seu <span>Template</span>
+            </h1>
+            <p class="header-subtitle">
+                3 templates profissionais e inovadores para destacar sua presença online.
+                Cada design foi criado com as tendências mais recentes de 2025.
+            </p>
+        </header>
+
+        <!-- Templates Grid -->
+        <div class="templates-grid">
+            <!-- Template 1: Bento Grid -->
+            <article class="template-card">
+                <div class="template-preview">
+                    <div class="preview-placeholder preview-bento">
+                        <div class="preview-content">
+                            <div class="box"></div>
+                            <div class="box"></div>
+                            <div class="box"></div>
+                            <div class="box"></div>
+                            <div class="box"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="template-info">
+                    <span class="template-badge badge-popular">
+                        <i class="mdi mdi-fire"></i> Popular
+                    </span>
+                    <h3 class="template-name">Bento Grid</h3>
+                    <p class="template-description">
+                        Design minimalista inspirado no estilo Apple. Layout assimétrico
+                        com cards interativos e efeitos 3D suaves.
+                    </p>
+                    <div class="template-features">
+                        <span class="feature-tag">
+                            <i class="mdi mdi-grid"></i> Grid Modular
+                        </span>
+                        <span class="feature-tag">
+                            <i class="mdi mdi-cube-outline"></i> Efeito 3D
+                        </span>
+                        <span class="feature-tag">
+                            <i class="mdi mdi-moon-waning-crescent"></i> Dark Mode
+                        </span>
+                    </div>
+                    <a href="bento-grid.html" class="view-btn">
+                        Ver Template
+                        <i class="mdi mdi-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Template 2: Dark Cyber -->
+            <article class="template-card">
+                <div class="template-preview">
+                    <div class="preview-placeholder preview-cyber">
+                        <div class="preview-content">
+                            <div class="hex">
+                                <div class="hex-inner">TC</div>
+                            </div>
+                            <p class="neon-text">THIAGO CARVALHO</p>
+                            <div class="neon-line"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="template-info">
+                    <span class="template-badge badge-new">
+                        <i class="mdi mdi-new-box"></i> Novo
+                    </span>
+                    <h3 class="template-name">Dark Cyber</h3>
+                    <p class="template-description">
+                        Estilo futurístico cyberpunk com efeitos neon, partículas
+                        animadas e tipografia impactante estilo terminal.
+                    </p>
+                    <div class="template-features">
+                        <span class="feature-tag">
+                            <i class="mdi mdi-flare"></i> Neon Glow
+                        </span>
+                        <span class="feature-tag">
+                            <i class="mdi mdi-animation"></i> Partículas
+                        </span>
+                        <span class="feature-tag">
+                            <i class="mdi mdi-hexagon-outline"></i> Hexagonal
+                        </span>
+                    </div>
+                    <a href="dark-cyber.html" class="view-btn">
+                        Ver Template
+                        <i class="mdi mdi-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Template 3: Glassmorphism -->
+            <article class="template-card">
+                <div class="template-preview">
+                    <div class="preview-placeholder preview-glass">
+                        <div class="orb orb-1"></div>
+                        <div class="orb orb-2"></div>
+                        <div class="glass-card">
+                            <div class="avatar">TC</div>
+                            <p class="glass-text">Thiago Carvalho</p>
+                            <p class="glass-sub">Full Stack Developer</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="template-info">
+                    <span class="template-badge badge-premium">
+                        <i class="mdi mdi-star"></i> Premium
+                    </span>
+                    <h3 class="template-name">Glassmorphism</h3>
+                    <p class="template-description">
+                        Design moderno com efeitos de vidro fosco, gradientes animados
+                        e transições elegantes para um visual premium.
+                    </p>
+                    <div class="template-features">
+                        <span class="feature-tag">
+                            <i class="mdi mdi-blur"></i> Glass Effect
+                        </span>
+                        <span class="feature-tag">
+                            <i class="mdi mdi-gradient-horizontal"></i> Gradientes
+                        </span>
+                        <span class="feature-tag">
+                            <i class="mdi mdi-circle-multiple"></i> Orbs
+                        </span>
+                    </div>
+                    <a href="glassmorphism.html" class="view-btn">
+                        Ver Template
+                        <i class="mdi mdi-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+        </div>
+
+        <!-- Back Link -->
+        <div style="text-align: center;">
+            <a href="../index.html" class="back-link">
+                <i class="mdi mdi-arrow-left"></i>
+                Voltar ao Portfolio Original
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-social">
+                <a href="https://linkedin.com/in/thiagobjcarvalho" target="_blank">
+                    <i class="mdi mdi-linkedin"></i>
+                </a>
+                <a href="https://github.com/thiagobjcarvalho-cw" target="_blank">
+                    <i class="mdi mdi-github"></i>
+                </a>
+                <a href="mailto:thiagob.j.carvalho@gmail.com">
+                    <i class="mdi mdi-email"></i>
+                </a>
+            </div>
+            <p>© 2024 Thiago Carvalho • Full Stack Developer • Brasília, DF</p>
+        </footer>
+    </div>
+
+    <script>
+        // Add entrance animation
+        document.querySelectorAll('.template-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(40px)';
+            card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+            card.style.transitionDelay = `${index * 0.15}s`;
+
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+</body>
+</html>

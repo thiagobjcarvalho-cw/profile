@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thiago Carvalho — Currículo</title>
+<style>
+  :root{
+    --navy:#142433;
+    --navy-light:#2c4256;
+    --gold:#D9A441;
+    --grey:#6B7280;
+    --lightgrey:#8FA4B8;
+    --text:#2B2F36;
+    --white:#FFFFFF;
+    --sans:Arial, Helvetica, 'Segoe UI', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:#dde1e6;
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.45;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- Page / container principal (mais largo) ---------- */
+  .page{
+    max-width:1320px;
+    margin:0 auto;
+    padding:24px 16px;
+  }
+  .sheet{
+    background:var(--white);
+    border-radius:6px;
+    box-shadow:0 8px 40px rgba(0,0,0,0.18);
+    overflow:hidden;
+  }
+
+  /* ---------- Layout: sidebar 30% | main 70% ---------- */
+  .layout{
+    display:grid;
+    grid-template-columns:minmax(300px,30%) 1fr;
+    align-items:stretch;   /* sidebar estica até a altura total — sem branco embaixo */
+    min-height:100%;
+  }
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr;}
+  }
+
+  /* ---------- Sidebar (menu lateral navy) ---------- */
+  .sidebar{
+    background:var(--navy);
+    color:#D7E1EA;
+    padding:44px 34px 40px;
+    height:100%;
+  }
+  .avatar-wrap{
+    text-align:center;
+    margin-bottom:22px;
+  }
+  .avatar{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid var(--gold);
+    box-shadow:0 4px 18px rgba(0,0,0,0.4);
+  }
+  .name{
+    margin:0;
+    font-size:34px;
+    font-weight:700;
+    color:var(--white);
+    line-height:1.08;
+  }
+  .name em{font-style:normal;}
+  .role{
+    margin:10px 0 0;
+    font-size:15.5px;
+    font-weight:700;
+    color:var(--gold);
+    letter-spacing:0.3px;
+  }
+
+  .sb-title{
+    margin:30px 0 10px;
+    padding-bottom:6px;
+    border-bottom:2px solid var(--navy-light);
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:2.5px;
+    color:var(--lightgrey);
+    text-transform:uppercase;
+  }
+  .sb-title:first-child{margin-top:26px;}
+  .sb-line{
+    margin:0 0 8px;
+    font-size:14.5px;
+    color:#D7E1EA;
+    word-break:break-word;
+  }
+  .sb-line a{color:#D7E1EA; text-decoration:none;}
+  .sb-line a:hover{color:var(--gold); text-decoration:underline;}
+
+  .skill-group{margin-bottom:14px;}
+  .skill-label{
+    margin:0 0 3px;
+    font-size:13px;
+    font-weight:700;
+    color:var(--gold);
+  }
+  .skill-items{
+    margin:0;
+    font-size:13.5px;
+    color:#D7E1EA;
+    line-height:1.5;
+  }
+
+  .lang-row{
+    margin:0 0 6px;
+    font-size:14px;
+    color:#D7E1EA;
+  }
+  .lang-row .lvl{color:var(--lightgrey);}
+
+  .edu-item{margin-bottom:16px;}
+  .edu-item:last-child{margin-bottom:0;}
+  .edu-title{
+    margin:0 0 2px;
+    font-size:14.5px;
+    font-weight:700;
+    color:var(--white);
+    line-height:1.35;
+  }
+  .edu-sub{
+    margin:0;
+    font-size:13px;
+    color:var(--lightgrey);
+  }
+
+  .course-list{list-style:none; margin:0; padding:0;}
+  .course-list li{
+    margin:0 0 8px;
+    font-size:13px;
+    color:#CDD9E3;
+    padding-left:14px;
+    position:relative;
+    line-height:1.35;
+  }
+  .course-list li::before{
+    content:'•';
+    position:absolute;
+    left:0;
+    color:var(--gold);
+  }
+
+  /* ---------- Main content ---------- */
+  .main-content{
+    background:var(--white);
+    padding:44px 46px 48px;
+    min-width:0;
+  }
+  .sec-title{
+    margin:0 0 18px;
+    padding-bottom:8px;
+    border-bottom:4px solid var(--gold);
+    font-size:22px;
+    font-weight:700;
+    letter-spacing:1.5px;
+    color:var(--navy);
+    text-transform:uppercase;
+  }
+  .sec-title:first-child{margin-top:0;}
+
+  .summary{
+    margin:0 0 10px;
+    font-size:15.5px;
+    line-height:1.6;
+    text-align:justify;
+    color:var(--text);
+  }
+
+  .job{margin-bottom:26px;}
+  .job:last-child{margin-bottom:0;}
+  .job-head{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+  }
+  .job-title{
+    margin:0;
+    font-size:17.5px;
+    font-weight:700;
+    color:var(--navy);
+    flex:1 1 auto;
+  }
+  .job-period{
+    background:var(--navy);
+    color:var(--white);
+    font-size: smaller;
+    font-weight:700;
+    padding:5px 12px;
+    border-radius:12px;
+    white-space:nowrap;
+  }
+  .job-company{
+    margin:3px 0 8px;
+    font-size:14.5px;
+		font-weight: 500;
+    font-style:italic;
+    color:var(--grey);
+  }
+  .job-bullets{
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+  .job-bullets li{
+    margin:0 0 5px;
+    padding-left:16px;
+    position:relative;
+    font-size:14.5px;
+    line-height:1.5;
+    color:var(--text);
+  }
+  .job-bullets li::before{
+    content:'•';
+    position:absolute;
+    left:0;
+    color:var(--gold);
+    font-weight:700;
+  }
+
+  /* ---------- Print: A4 fiel ao modelo, compactado p/ 1 página ---------- */
+  @media print{
+    body{background:#fff;}
+    .page{max-width:100%; padding:0;}
+    .sheet{box-shadow:none; border-radius:0;}
+    .layout{grid-template-columns:30% 70%; min-height:297mm;}
+    .sidebar{height:auto; padding:22px 20px 18px;}
+    .avatar-wrap{margin-bottom:10px;}
+    .avatar{width:92px; height:92px; border-width:2px;}
+    .name{font-size:25px;}
+    .role{font-size:12.5px; margin:5px 0 0;}
+    .sb-title{margin:13px 0 4px; padding-bottom:3px; font-size:10.5px; letter-spacing:1.6px;}
+    .sb-title:first-child{margin-top:12px;}
+    .sb-line{font-size:11.5px; margin-bottom:4px;}
+    .skill-group{margin-bottom:7px;}
+    .skill-label{font-size:11px; margin-bottom:1px;}
+    .skill-items{font-size:11px; line-height:1.35;}
+    .lang-row{font-size:11.5px; margin-bottom:3px;}
+    .edu-item{margin-bottom:7px;}
+    .edu-title{font-size:11.5px;}
+    .edu-sub{font-size:10.5px;}
+    .course-list li{font-size:10px; margin-bottom:2px; line-height:1.3;}
+    .main-content{padding:22px 34px 26px;}
+    .sec-title{margin-bottom:7px; padding-bottom:3px; font-size:16.5px; border-bottom-width:3px;}
+    .summary{font-size:12px; line-height:1.42; margin-bottom:4px;}
+    .job{margin-bottom:11px;}
+    .job-head{gap:6px;}
+    .job-title{font-size:13px;}
+    .job-period{font-size:9.5px; padding:3px 8px; border-radius:8px;}
+    .job-company{font-size:11px; margin:2px 0 4px;}
+    .job-bullets li{font-size:11px; line-height:1.38; margin-bottom:2px; padding-left:12px;}
+    a{color:inherit;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="sheet">
+    <div class="layout">
+
+      <!-- ======================= SIDEBAR ======================= -->
+      <aside class="sidebar">
+        <div class="avatar-wrap">
+          <img class="avatar" src="profileThiago.jpg" alt="Thiago Carvalho">
+        </div>
+        <h1 class="name">Thiago<br><em>Carvalho</em></h1>
+        <p class="role">Full Stack Developer Sênior</p>
+
+        <h2 class="sb-title">Contato</h2>
+        <p class="sb-line">Brasília, DF – Brasil</p>
+        <p class="sb-line">(61) 98285-9870</p>
+        <p class="sb-line"><a href="mailto:thiagob.j.carvalho@gmail.com">thiagob.j.carvalho@gmail.com</a></p>
+        <p class="sb-line"><a href="https://linkedin.com/in/thiagobjcarvalho" target="_blank" rel="noopener">linkedin.com/in/thiagobjcarvalho</a></p>
+        <p class="sb-line"><a href="https://github.com/thiagobjcarvalho-cw" target="_blank" rel="noopener">github.com/thiagobjcarvalho-cw</a></p>
+
+        <h2 class="sb-title">Competências</h2>
+        <div class="skill-group">
+          <p class="skill-label">Frontend</p>
+          <p class="skill-items">VueJS 3, ReactJS, Angular/AngularJS, TypeScript, JavaScript, HTML5, CSS3</p>
+        </div>
+        <div class="skill-group">
+          <p class="skill-label">UI / Design System</p>
+          <p class="skill-items">Vuetify, Material Design, Bootstrap</p>
+        </div>
+        <div class="skill-group">
+          <p class="skill-label">Backend</p>
+          <p class="skill-items">PHP (Laravel, Zend, Apigility), API Platform, Java</p>
+        </div>
+        <div class="skill-group">
+          <p class="skill-label">Banco de Dados</p>
+          <p class="skill-items">Oracle, PostgreSQL, MySQL</p>
+        </div>
+        <div class="skill-group">
+          <p class="skill-label">Ferramentas</p>
+          <p class="skill-items">Docker, Git, GitHub, CI/CD</p>
+        </div>
+
+        <h2 class="sb-title">Idiomas</h2>
+        <p class="lang-row">Português <span class="lvl">— Nativo</span></p>
+        <p class="lang-row">Inglês <span class="lvl">— Intermediário / Avançado</span></p>
+
+        <h2 class="sb-title">Formação</h2>
+        <div class="edu-item">
+          <p class="edu-title">Tecnólogo em Análise e Desenvolvimento de Sistemas</p>
+          <p class="edu-sub">Grupo Projeção / FAJESU — 2008–2011</p>
+        </div>
+        <div class="edu-item">
+          <p class="edu-title">Pós-graduação em Engenharia de Software</p>
+          <p class="edu-sub">Faculdade Integrada da Grande Fortaleza (FGF)</p>
+        </div>
+
+        <h2 class="sb-title">Cursos Complementares</h2>
+        <ul class="course-list">
+          <li>ReactJS e Redux: Fundamentos e Duas Apps – Udemy (2019)</li>
+          <li>VueJS 2 – O Guia Completo – Udemy (2019)</li>
+          <li>Curso Web Moderno com JavaScript – Udemy (2019)</li>
+          <li>Laravel 5.3 com VueJS – Code Education (2017)</li>
+          <li>Apigility com Ionic – Code Education (2016)</li>
+          <li>Zend Framework 2 – Zend/MEC (2014)</li>
+          <li>Segurança em Servidores Linux (Hardening) – DGP (2011)</li>
+          <li>Hackers for Security – Técnicas de Invasão – Exército (2011)</li>
+        </ul>
+      </aside>
+
+      <!-- ======================= MAIN ======================= -->
+      <main class="main-content">
+
+        <h2 class="sec-title">Resumo Profissional</h2>
+        <p class="summary">Engenheiro de Software com mais de 15 anos de experiência em desenvolvimento Full Stack, com forte especialização em Frontend. Domínio de VueJS, ReactJS e do ecossistema JavaScript/TypeScript, com histórico de atuação como Tech Lead em projetos internacionais e em sistemas de missão crítica para órgãos governamentais e grandes empresas. Experiência sólida em API Platform, PHP (Laravel, Zend), bancos de dados relacionais (Oracle, PostgreSQL, MySQL) e boas práticas de arquitetura, Git/CI-CD e colaboração com equipes multidisciplinares.</p>
+
+        <h2 class="sec-title">Experiência Profissional</h2>
+
+        <div class="job">
+          <div class="job-head">
+            <h3 class="job-title">Full Stack Developer</h3>
+            <span class="job-period">07/2024 – 08/2026</span>
+          </div>
+          <p class="job-company">Tribunal de Contas do Distrito Federal (TCDF) — Brasília, DF</p>
+          <ul class="job-bullets">
+            <li>Desenvolvimento e manutenção de aplicações Full Stack utilizando VueJS (Composition API), API Platform e Vuetify para interfaces ricas e responsivas.</li>
+            <li>Atuação em projetos institucionais de gestão pública, com foco em escalabilidade e qualidade de código.</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-head">
+            <h3 class="job-title">Analista de Desenvolvimento Sênior</h3>
+            <span class="job-period">02/2023 – 02/2024</span>
+          </div>
+          <p class="job-company">Fretebras — Valparaíso de Goiás, GO</p>
+          <ul class="job-bullets">
+            <li>Desenvolvimento de funcionalidades para plataforma de logística e frete, atuando no Frontend com foco em performance e experiência do usuário.</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-head">
+            <h3 class="job-title">Analista Desenvolvedor Sr. (ReactJS)</h3>
+            <span class="job-period">01/2022 – 10/2022</span>
+          </div>
+          <p class="job-company">SysMap Solutions — Brasília, DF</p>
+          <ul class="job-bullets">
+            <li>Atuação como Analista Desenvolvedor Sr. em projetos ReactJS para os clientes Editora FTD e Renner.</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-head">
+            <h3 class="job-title">Analista Desenvolvedor Sr. Frontend (ReactJS / Angular10)</h3>
+            <span class="job-period">06/2019 – 02/2022</span>
+          </div>
+          <p class="job-company">Coopersystem — Brasília, DF (Cooperativa)</p>
+          <ul class="job-bullets">
+            <li>Desenvolvimento de sistemas na fábrica de software para o IPEA com tecnologia ReactJS.</li>
+            <li>Atuação em contrato com o Banco do Brasil na área de seguros de vida, com Angular 10, AngularJS, Java e Maven.</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-head">
+            <h3 class="job-title">Desenvolvedor Frontend (VueJS)</h3>
+            <span class="job-period">02/2019 – 06/2019</span>
+          </div>
+          <p class="job-company">Orbiter — Engenharia &amp; Consultoria (Home Office)</p>
+          <ul class="job-bullets">
+            <li>Criação de sistema de controle de pagamento com VueJS e manutenção de sistema legado em AngularJS e Bootstrap, no setor de internet via satélite.</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-head">
+            <h3 class="job-title">Analista Desenvolvedor (AngularJS)</h3>
+            <span class="job-period">11/2017 – 10/2018</span>
+          </div>
+          <p class="job-company">Transoft – Soluções para Transportes — Núcleo Bandeirantes, DF</p>
+          <ul class="job-bullets">
+            <li>Criação de sistema de controle de ocorrências por meio de recortes de vídeo, com AngularJS e Bootstrap.</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-head">
+            <h3 class="job-title">Desenvolvedor Frontend (AngularJS)</h3>
+            <span class="job-period">08/2015 – 07/2017</span>
+          </div>
+          <p class="job-company">Datainfo Soluções em TI — Ministério das Relações Exteriores (MRE), Brasília</p>
+          <ul class="job-bullets">
+            <li>Criação de arquitetura e sistemas de controle de documentos sensíveis, com AngularJS, Material Design, PHP (Apigility) e PostgreSQL.</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-head">
+            <h3 class="job-title">Desenvolvedor PHP (MVC)</h3>
+            <span class="job-period">04/2014 – 08/2015</span>
+          </div>
+          <p class="job-company">Indra Brasil — Ministério da Educação (MEC), Brasília</p>
+          <ul class="job-bullets">
+            <li>Desenvolvimento e manutenção dos sistemas SISU Gestão 2, SGB e ISF, com PHP (Zend Framework), jQuery, Oracle e WordPress.</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-head">
+            <h3 class="job-title">Desenvolvedor PHP (MVC)</h3>
+            <span class="job-period">03/2010 – 03/2014</span>
+          </div>
+          <p class="job-company">Exército Brasileiro — Quartel General do Exército, Brasília</p>
+          <ul class="job-bullets">
+            <li>Desenvolvimento de sistemas de gestão militar com PHP (Zend Framework), jQuery, Oracle e Joomla.</li>
+          </ul>
+        </div>
+
+      </main>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,1262 +1,268 @@
-const { createApp } = Vue
-const { createVuetify } = Vuetify
+/* ============================================================
+   Thiago Carvalho — Portfólio
+   Vanilla JS: dados do currículo real (docs/ThiagoCarvalho-Curriculo.pdf)
+   ============================================================ */
 
-const vuetify = createVuetify({
-  theme: {
-    defaultTheme: 'light',
-    themes: {
-      light: {
-        colors: {
-          primary: '#FF6B35',
-          'primary-darken-1': '#E55A2B',
-          'primary-lighten-1': '#FF8A5B',
-          secondary: '#6B7280',
-          accent: '#F59E0B',
-          success: '#10B981',
-          error: '#EF4444',
-          warning: '#F59E0B',
-          info: '#06B6D4',
-          background: '#FFFFFF',
-          surface: '#F8FAFC',
-          'surface-variant': '#F1F5F9',
-        }
-      },
-      dark: {
-        colors: {
-          primary: '#FF8A5B',
-          'primary-darken-1': '#FF6B35',
-          'primary-lighten-1': '#FFA97D',
-          secondary: '#9CA3AF',
-          accent: '#FBBF24',
-          success: '#34D399',
-          error: '#F87171',
-          background: '#0F0F23',
-          surface: '#1E1E3F',
-          'surface-variant': '#2A2A5C',
-        }
-      }
-    }
+/* ---------- Dados: experiências (fonte: currículo PDF) ---------- */
+const EXPERIENCES = [
+  {
+    period: '07/2024 – 04/08/2026',
+    role: 'Full Stack Developer',
+    company: 'Tribunal de Contas do Distrito Federal (TCDF)',
+    location: 'Brasília, DF',
+    current: true,
+    bullets: [
+      'Desenvolvimento e manutenção de aplicações Full Stack utilizando VueJS (Composition API), API Platform e Vuetify para interfaces ricas e responsivas.',
+      'Atuação em projetos institucionais de gestão pública, com foco em escalabilidade e qualidade de código.'
+    ]
   },
-  defaults: {
-    VBtn: {
-      style: 'text-transform: none; font-weight: 600;',
-    },
-    VCard: {
-      elevation: 0,
-      style: 'border: 1px solid rgba(0,0,0,0.05);'
-    }
+  {
+    period: '02/2023 – 02/2024',
+    role: 'Analista de Desenvolvimento Sênior',
+    company: 'Fretebras',
+    location: 'Valparaíso de Goiás, GO',
+    current: false,
+    bullets: [
+      'Desenvolvimento de funcionalidades para plataforma de logística e frete, atuando no Frontend com foco em performance e experiência do usuário.'
+    ]
+  },
+  {
+    period: '01/2022 – 10/2022',
+    role: 'Analista Desenvolvedor Sr. (ReactJS)',
+    company: 'SysMap Solutions',
+    location: 'Brasília, DF',
+    current: false,
+    bullets: [
+      'Atuação como Analista Desenvolvedor Sr. em projetos ReactJS para os clientes Editora FTD e Renner.'
+    ]
+  },
+  {
+    period: '06/2019 – 02/2022',
+    role: 'Analista Desenvolvedor Sr. Frontend (ReactJS / Angular10)',
+    company: 'Coopersystem',
+    location: 'Brasília, DF (Cooperativa)',
+    current: false,
+    bullets: [
+      'Desenvolvimento de sistemas na fábrica de software para o IPEA com tecnologia ReactJS.',
+      'Atuação em contrato com o Banco do Brasil na área de seguros de vida, com Angular 10, AngularJS, Java e Maven.'
+    ]
+  },
+  {
+    period: '02/2019 – 06/2019',
+    role: 'Desenvolvedor Frontend (VueJS)',
+    company: 'Orbiter — Engenharia & Consultoria',
+    location: 'Home Office',
+    current: false,
+    bullets: [
+      'Criação de sistema de controle de pagamento com VueJS e manutenção de sistema legado em AngularJS e Bootstrap, no setor de internet via satélite.'
+    ]
+  },
+  {
+    period: '11/2017 – 10/2018',
+    role: 'Analista Desenvolvedor (AngularJS)',
+    company: 'Transoft – Soluções para Transportes',
+    location: 'Núcleo Bandeirantes, DF',
+    current: false,
+    bullets: [
+      'Criação de sistema de controle de ocorrências por meio de recortes de vídeo, com AngularJS e Bootstrap.'
+    ]
+  },
+  {
+    period: '08/2015 – 07/2017',
+    role: 'Desenvolvedor Frontend (AngularJS)',
+    company: 'Datainfo Soluções em TI — Ministério das Relações Exteriores (MRE)',
+    location: 'Brasília, DF',
+    current: false,
+    bullets: [
+      'Criação de arquitetura e sistemas de controle de documentos sensíveis, com AngularJS, Material Design, PHP (Apigility) e PostgreSQL.'
+    ]
+  },
+  {
+    period: '04/2014 – 08/2015',
+    role: 'Desenvolvedor PHP (MVC)',
+    company: 'Indra Brasil — Ministério da Educação (MEC)',
+    location: 'Brasília, DF',
+    current: false,
+    bullets: [
+      'Desenvolvimento e manutenção dos sistemas SISU Gestão 2, SGB e ISF, com PHP (Zend Framework), jQuery, Oracle e WordPress.'
+    ]
+  },
+  {
+    period: '03/2010 – 03/2014',
+    role: 'Desenvolvedor PHP (MVC)',
+    company: 'Exército Brasileiro — Quartel General do Exército',
+    location: 'Brasília, DF',
+    current: false,
+    bullets: [
+      'Desenvolvimento de sistemas de gestão militar com PHP (Zend Framework), jQuery, Oracle e Joomla.'
+    ]
   }
-})
+];
 
-const PortfolioApp = {
-  data() {
-    return {
-      currentTheme: 'light',
-      typewriterText: '',
-      typewriterIndex: 0,
-      isDeleting: false,
-      showFloatingSkills: false,
-      texts: [
-        'Full Stack Developer Sr.',
-        'Especialista em VueJS',
-        'Expert em ReactJS',
-        'Desenvolvedor Angular',
-        'API Platform Master'
-      ],
-      floatingSkills: [
-        'VueJS', 'ReactJS', 'Angular', 'TypeScript', 
-        'PHP', 'Laravel', 'API Platform', 'Vuetify',
-        'Full Stack', 'Frontend'
-      ]
-    }
+/* ---------- Dados: skills (fonte: currículo PDF) ---------- */
+const SKILL_GROUPS = [
+  {
+    title: 'Frontend',
+    icon: '<path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>',
+    skills: ['VueJS 3', 'ReactJS', 'Angular / AngularJS', 'TypeScript', 'JavaScript', 'HTML5', 'CSS3']
   },
-  
-  mounted() {
-    this.startTypewriter()
-    setTimeout(() => {
-      this.showFloatingSkills = true
-    }, 1000)
-    this.addCustomStyles()
+  {
+    title: 'UI / Design System',
+    icon: '<path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/>',
+    skills: ['Vuetify', 'Material Design', 'Bootstrap']
   },
-  
-  methods: {
-    toggleTheme() {
-      this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light'
-    },
-    
-    navigateToSection(sectionId) {
-      const element = document.getElementById(sectionId)
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }
-    },
-    
-    startTypewriter() {
-      const currentText = this.texts[this.typewriterIndex]
-      
-      if (!this.isDeleting && this.typewriterText.length < currentText.length) {
-        this.typewriterText = currentText.substring(0, this.typewriterText.length + 1)
-        setTimeout(this.startTypewriter, 100)
-      } else if (this.isDeleting && this.typewriterText.length > 0) {
-        this.typewriterText = currentText.substring(0, this.typewriterText.length - 1)
-        setTimeout(this.startTypewriter, 50)
-      } else if (!this.isDeleting && this.typewriterText === currentText) {
-        setTimeout(() => {
-          this.isDeleting = true
-          this.startTypewriter()
-        }, 2000)
-      } else if (this.isDeleting && this.typewriterText === '') {
-        this.isDeleting = false
-        this.typewriterIndex = (this.typewriterIndex + 1) % this.texts.length
-        setTimeout(this.startTypewriter, 200)
-      }
-    },
-    
-    addCustomStyles() {
-      const style = document.createElement('style')
-      style.textContent = `
-        /* ANIMAÇÕES PERSONALIZADAS */
-        @keyframes gradient-shift {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-        }
-        
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(5deg); }
-        }
-        
-        @keyframes float-skill {
-          0%, 100% { transform: translate(-50%, -50%) translateY(0px) rotate(0deg); }
-          50% { transform: translate(-50%, -50%) translateY(-15px) rotate(3deg); }
-        }
-        
-        @keyframes slide-up {
-          0% { opacity: 0; transform: translateY(50px); }
-          100% { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes pulse-ring {
-          0% { transform: scale(1); opacity: 1; }
-          100% { transform: scale(1.5); opacity: 0; }
-        }
-        
-        @keyframes blink {
-          0%, 50% { opacity: 1; }
-          51%, 100% { opacity: 0; }
-        }
-        
-        /* CLASSES PERSONALIZADAS */
-        .gradient-text-hero {
-          background: linear-gradient(135deg, #3B82F6 0%, #F59E0B 50%, #EF4444 100%);
-          background-size: 200% 200%;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          animation: gradient-shift 4s ease-in-out infinite;
-        }
-        
-        .typewriter-cursor {
-          animation: blink 1s infinite;
-          color: #3B82F6;
-          font-weight: 300;
-        }
-        
-        .hero-bg {
-          background: linear-gradient(135deg, #0F0F23 0%, #1a1a3a 50%, #0F0F23 100%);
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .hero-bg::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background-image: 
-            radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 75% 75%, rgba(245, 158, 11, 0.1) 0%, transparent 50%);
-          background-size: 100% 100%;
-        }
-        
-        .hero-bg::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background-image: 
-            linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-          background-size: 50px 50px;
-          animation: grid-move 60s linear infinite;
-
-        @keyframes orange-glow {
-          0%, 100% { box-shadow: 0 2px 8px rgba(255, 107, 53, 0.4); }
-          50% { box-shadow: 0 4px 15px rgba(255, 107, 53, 0.8); }
-        }
-        }
-        
-        @keyframes grid-move {
-          0% { transform: translate(0, 0); }
-          100% { transform: translate(50px, 50px); }
-        }
-        
-        .avatar-container {
-          position: relative;
-          animation: float 6s ease-in-out infinite;
-        }
-        
-        .avatar-ring {
-          position: absolute;
-          top: -20px;
-          left: -20px;
-          right: -20px;
-          bottom: -20px;
-          border: 2px solid rgba(245, 158, 11, 0.3);
-          border-radius: 50%;
-          animation: pulse-ring 3s ease-out infinite;
-        }
-        
-        .skill-floating {
-          position: absolute;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          cursor: pointer;
-          animation: float-skill 4s ease-in-out infinite;
-        }
-        
-        .skill-floating:hover {
-          transform: translate(-50%, -50%) scale(1.2) !important;
-          z-index: 10;
-        }
-        
-        .glass-card {
-          background: rgba(255, 255, 255, 0.05) !important;
-          backdrop-filter: blur(20px) !important;
-          border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        }
-        
-        .stat-card {
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          cursor: pointer;
-        }
-        
-        .stat-card:hover {
-          transform: translateY(-8px) scale(1.05);
-        }
-        
-        .experience-card {
-          transition: all 0.3s ease;
-          border-left: 4px solid transparent;
-        }
-        
-        .experience-card:hover {
-          transform: translateX(10px);
-          border-left-color: #3B82F6;
-          box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
-        }
-        
-        .skill-category-card {
-          transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .skill-category-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-          transition: left 0.5s ease;
-        }
-        
-        .skill-category-card:hover::before {
-          left: 100%;
-        }
-        
-        .skill-category-card:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-        }
-        
-        .contact-glass {
-          background: rgba(255, 255, 255, 0.05);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .btn-glow:hover {
-          box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
-          transform: translateY(-2px);
-        }
-        
-        .animate-slide-up {
-          animation: slide-up 0.8s ease-out forwards;
-        }
-        
-        /* RESPONSIVO */
-        @media (max-width: 960px) {
-          .skill-floating {
-            position: relative !important;
-            display: inline-block !important;
-            margin: 4px !important;
-            animation: none !important;
-          }
-        }
-      `
-      document.head.appendChild(style)
-    }
+  {
+    title: 'Backend',
+    icon: '<rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/>',
+    skills: ['PHP (Laravel)', 'PHP (Zend)', 'PHP (Apigility)', 'API Platform', 'Java']
   },
-  
-  template: `
-    <v-app :theme="currentTheme">
-      <!-- Header Premium -->
-      <v-app-bar 
-        elevation="0" 
-        app 
-        :style="{
-          background: 'rgba(255, 255, 255, 0.95)',
-          backdropFilter: 'blur(20px)',
-          borderBottom: '1px solid rgba(0, 0, 0, 0.05)'
-        }"
-      >
-        <v-container class="d-flex align-center">
-          <v-btn 
-            variant="text" 
-            @click="navigateToSection('hero')" 
-            class="text-h6 font-weight-bold px-0"
-            style="text-transform: none;"
-          >
-            <span class="gradient-text-hero">Thiago Carvalho</span>
-          </v-btn>
-          
-          <v-spacer></v-spacer>
-          
-          <div class="d-none d-md-flex align-center">
-            <v-btn 
-              v-for="item in [
-                {id: 'about', label: 'Sobre'},
-                {id: 'experience', label: 'Experiência'}, 
-                {id: 'skills', label: 'Skills'},
-                {id: 'contact', label: 'Contato'}
-              ]"
-              :key="item.id"
-              variant="text" 
-              @click="navigateToSection(item.id)"
-              class="mx-1"
-              style="text-transform: none; font-weight: 500;"
-            >
-              {{ item.label }}
-            </v-btn>
-            
-            <v-btn 
-              :icon="currentTheme === 'light' ? 'mdi-weather-night' : 'mdi-white-balance-sunny'"
-              variant="outlined"
-              @click="toggleTheme"
-              class="ml-4"
-              style="border-color: rgba(59, 130, 246, 0.3);"
-            ></v-btn>
-          </div>
-          
-          <v-btn 
-            icon="mdi-menu" 
-            variant="text" 
-            class="d-md-none"
-          ></v-btn>
-        </v-container>
-      </v-app-bar>
-        <!-- Barra Laranja Embaixo do Header -->
-        <div style="position: fixed; top: 64px; left: 0; right: 0; width: 100%; height: 4px; background: linear-gradient(90deg, #FF6B35 0%, #F59E0B 25%, #FF8500 50%, #F59E0B 75%, #FF6B35 100%); z-index: 9998; box-shadow: 0 2px 8px rgba(255, 107, 53, 0.4); animation: orange-glow 3s ease-in-out infinite;"></div>
+  {
+    title: 'Banco de Dados',
+    icon: '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>',
+    skills: ['Oracle', 'PostgreSQL', 'MySQL']
+  },
+  {
+    title: 'Ferramentas',
+    icon: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+    skills: ['Docker', 'Git', 'GitHub', 'CI/CD']
+  }
+];
 
-      <v-main>
-        <!-- Hero Section PREMIUM -->
-        <section id="hero" class="hero-bg" style="min-height: 100vh; display: flex; align-items: center; position: relative;">
-          <v-container style="position: relative; z-index: 2;">
-            <v-row align="center" class="min-h-screen">
-              <v-col cols="12" md="6" class="animate-slide-up">
-                <div style="color: white;">
-                  <!-- Status Badge Premium -->
-                  <v-chip
-                    prepend-icon="mdi-circle"
-                    color="success"
-                    variant="outlined"
-                    class="mb-6"
-                    style="
-                      background: rgba(34, 197, 94, 0.1);
-                      border-color: rgba(34, 197, 94, 0.3);
-                      backdrop-filter: blur(10px);
-                    "
-                  >
-                    <span style="color: #22C55E; font-weight: 500;">Disponível para projetos</span>
-                  </v-chip>
-                  
-                  <!-- Título Hero Premium -->
-                  <h1 class="mb-6" style="
-                    font-size: clamp(2.5rem, 8vw, 4.5rem);
-                    font-weight: 900;
-                    line-height: 1.1;
-                  ">
-                    <span style="color: white;">Olá, eu sou</span><br>
-                    <span class="gradient-text-hero">Thiago Carvalho</span>
-                  </h1>
-                  
-                  <!-- Typewriter Effect -->
-                  <h2 class="mb-4" style="
-                    font-size: 1.8rem;
-                    font-weight: 300;
-                    color: rgba(255, 255, 255, 0.9);
-                    min-height: 2.2rem;
-                  ">
-                    {{ typewriterText }}<span class="typewriter-cursor">|</span>
-                  </h2>
-                  
-                  <!-- Localização Premium -->
-                  <div class="d-flex align-center mb-6" style="color: rgba(255, 255, 255, 0.7);">
-                    <v-icon icon="mdi-map-marker" size="small" class="mr-2"></v-icon>
-                    <span>Brasília, DF • Full Stack Developer no TCDF</span>
-                  </div>
-                  
-                  <!-- Descrição Premium -->
-                  <p class="mb-8" style="
-                    font-size: 1.2rem;
-                    color: rgba(255, 255, 255, 0.8);
-                    line-height: 1.7;
-                    max-width: 500px;
-                  ">
-                    Engenheiro de Software com mais de <strong>10 anos de experiência</strong> 
-                    sólida em tecnologias de ponta, especializado em desenvolvimento 
-                    <strong>Frontend e Full Stack</strong>. Domínio em VueJS, ReactJS, Angular e 
-                    API Platform.
-                  </p>
-                  
-                  <!-- Botões Premium -->
-                  <div class="d-flex flex-wrap gap-4 mb-6">
-                    <v-btn 
-                      color="primary" 
-                      size="large" 
-                      prepend-icon="mdi-briefcase"
-                      @click="navigateToSection('experience')"
-                      class="btn-glow"
-                      style="
-                        background: linear-gradient(135deg, #3B82F6, #2563EB);
-                        text-transform: none;
-                        font-weight: 600;
-                      "
-                    >
-                      Ver Experiência
-                    </v-btn>
-                    
-                    <v-btn 
-                      variant="outlined" 
-                      color="white" 
-                      size="large" 
-                      prepend-icon="mdi-email"
-                      @click="navigateToSection('contact')"
-                      style="
-                        border: 2px solid rgba(255, 255, 255, 0.3);
-                        text-transform: none;
-                        font-weight: 600;
-                      "
-                    >
-                      Contato
-                    </v-btn>
-                  </div>
-                  
-                  <!-- Social Links Premium -->
-                  <div class="d-flex gap-2">
-                    <v-btn 
-                      v-for="social in [
-                        {icon: 'mdi-linkedin', url: 'https://linkedin.com/in/thiagobjcarvalho'},
-                        {icon: 'mdi-github', url: 'https://github.com/thiagobjcarvalho-cw'},
-                        {icon: 'mdi-email', url: 'mailto:thiagob.j.carvalho@gmail.com'},
-                        {icon: 'mdi-whatsapp', url: 'https://wa.me/5561982859870'}
-                      ]"
-                      :key="social.icon"
-                      :icon="social.icon"
-                      :href="social.url"
-                      target="_blank"
-                      variant="text"
-                      color="white"
-                      class="btn-glow"
-                    ></v-btn>
-                  </div>
-                </div>
-              </v-col>
-              
-              <!-- Visual Premium com Skills Flutuantes -->
-              <v-col cols="12" md="6" class="text-center">
-                <div style="position: relative; display: inline-block; width: 400px; height: 400px;">
-                  <!-- Avatar Premium -->
-                  <div class="avatar-container" style="position: relative; z-index: 2;">
-                    <div class="avatar-ring"></div>
-                    <v-avatar 
-                      size="280" 
-                      style="
-                        border: 4px solid rgba(59, 130, 246, 0.3);
-                        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-                      "
-                    >
-                      <div style="
-                        background: linear-gradient(135deg, #3B82F6, #2563EB);
-                        width: 100%;
-                        height: 100%;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        font-size: 8rem;
-                        color: white;
-                        font-weight: 900;
-                      ">
-                        TC
-                      </div>
-                    </v-avatar>
-                  </div>
-                  
-                  <!-- Skills Flutuantes Premium -->
-                  <div v-if="showFloatingSkills">
-                    <v-chip
-                      v-for="(skill, i) in floatingSkills"
-                      :key="skill"
-                      :class="\`skill-floating skill-\${i}\`"
-                      :style="{
-                        top: (Math.sin(i * Math.PI / 5) * 150 + 200) + 'px',
-                        left: (Math.cos(i * Math.PI / 5) * 150 + 200) + 'px',
-                        animationDelay: (i * 0.2) + 's',
-                        background: 'rgba(255, 255, 255, 0.95)',
-                        backdropFilter: 'blur(10px)',
-                        border: '1px solid rgba(59, 130, 246, 0.2)'
-                      }"
-                      size="small"
-                    >
-                      {{ skill }}
-                    </v-chip>
-                  </div>
-                </div>
-              </v-col>
-            </v-row>
-          </v-container>
-        </section>
+/* ---------- Typewriter ---------- */
+const ROLES = [
+  'Full Stack Developer Sênior',
+  'Especialista em VueJS 3',
+  'Expert em ReactJS',
+  'Angular / AngularJS',
+  'API Platform Master'
+];
 
-        <!-- About Section Premium -->
-        <section id="about" class="py-16" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);">
-          <v-container>
-            <div class="text-center mb-16">
-              <v-chip
-                prepend-icon="mdi-account"
-                color="primary"
-                variant="outlined"
-                class="mb-4"
-              >
-                Sobre Mim
-              </v-chip>
-              
-              <h2 class="text-h3 font-weight-bold mb-6" style="position: relative;">
-                Conheça minha <span class="text-primary">trajetória</span>
-                <div style="
-                  position: absolute;
-                  bottom: -8px;
-                  left: 50%;
-                  transform: translateX(-50%);
-                  width: 60px;
-                  height: 4px;
-                  background: linear-gradient(90deg, #3B82F6, #F59E0B);
-                  border-radius: 2px;
-                "></div>
-              </h2>
-            </div>
-            
-            <v-row>
-              <v-col cols="12" lg="8">
-                <!-- Card Principal Premium -->
-                <v-card 
-                  class="pa-8 mb-8" 
-                  elevation="0"
-                  style="
-                    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.9));
-                    backdrop-filter: blur(10px);
-                    border: 1px solid rgba(59, 130, 246, 0.1);
-                    border-radius: 20px;
-                  "
-                >
-                  <div class="d-flex align-start mb-4">
-                    <v-avatar color="primary" size="60" class="mr-4">
-                      <v-icon icon="mdi-account" size="30"></v-icon>
-                    </v-avatar>
-                    <div>
-                      <h3 class="text-h5 font-weight-bold mb-2">Thiago Carvalho</h3>
-                      <p class="text-subtitle-1 text-primary font-weight-medium">Full Stack Developer Sr.</p>
-                    </div>
-                  </div>
-                  
-                  <p class="text-body-1 mb-4" style="line-height: 1.8;">
-                    Como <strong>Full Stack Developer</strong> no Tribunal de Contas do Distrito Federal (TCDF), 
-                    atuo no desenvolvimento especializado em <strong>VueJS, API Platform e Vuetify</strong>, 
-                    criando aplicações robustas e escaláveis para o setor público com interfaces ricas e responsivas.
-                  </p>
-                  
-                  <v-alert
-                    type="info"
-                    variant="tonal"
-                    style="background: rgba(59, 130, 246, 0.1); border-left: 4px solid #3B82F6;"
-                  >
-                    <strong>Filosofia:</strong> Acredito que a tecnologia deve servir às pessoas, 
-                    criando soluções que realmente fazem a diferença.
-                  </v-alert>
-                </v-card>
+function startTypewriter() {
+  const el = document.getElementById('typewriter');
+  if (!el) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) { el.textContent = ROLES[0]; return; }
 
-                <!-- Stats Premium -->
-                <v-row class="mb-8">
-                  <v-col
-                    v-for="stat in [
-                      {value: '10+', label: 'Anos Experiência', icon: 'mdi-calendar', color: 'primary'},
-                      {value: '50+', label: 'Projetos', icon: 'mdi-rocket', color: 'success'},
-                      {value: '15+', label: 'Tecnologias', icon: 'mdi-code-tags', color: 'info'},
-                      {value: '100%', label: 'Dedicação', icon: 'mdi-heart', color: 'error'}
-                    ]"
-                    :key="stat.label"
-                    cols="6"
-                    md="3"
-                  >
-                    <v-card 
-                      :color="stat.color" 
-                      class="text-center pa-4 text-white stat-card"
-                      style="border-radius: 16px;"
-                    >
-                      <v-icon :icon="stat.icon" size="32" class="mb-2"></v-icon>
-                      <div class="text-h4 font-weight-bold">{{ stat.value }}</div>
-                      <div class="text-caption font-weight-medium">{{ stat.label }}</div>
-                    </v-card>
-                  </v-col>
-                </v-row>
-              </v-col>
-              
-              <!-- Sidebar Premium -->
-              <v-col cols="12" lg="4">
-                <v-card 
-                  class="pa-6 mb-6" 
-                  elevation="0"
-                  style="
-                    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.95));
-                    backdrop-filter: blur(10px);
-                    border: 1px solid rgba(59, 130, 246, 0.1);
-                    border-radius: 20px;
-                  "
-                >
-                  <h4 class="text-h6 font-weight-bold mb-4">
-                    <v-icon icon="mdi-school" class="mr-2" color="primary"></v-icon>
-                    Formação & Especializações
-                  </h4>
-                  
-                  <v-timeline density="compact" side="end">
-                    <v-timeline-item
-                      v-for="item in [
-                        {
-                          title: 'Tecnólogo em Análise e Desenvolvimento',
-                          subtitle: 'Grupo Projeção',
-                          period: '2008 - 2011',
-                          status: 'Concluído',
-                          color: 'primary'
-                        },
-                        {
-                          title: 'Full Stack Developer Sr.',
-                          subtitle: 'Frontend & Backend Especialista',
-                          period: '10+ anos',
-                          status: 'Experiência',
-                          color: 'success'
-                        },
-                        {
-                          title: 'Symfony & API Platform',
-                          subtitle: 'APIs Robustas',
-                          period: '5+ anos',
-                          status: 'Especialização',
-                          color: 'info'
-                        }
-                      ]"
-                      :key="item.title"
-                      :dot-color="item.color"
-                      size="small"
-                    >
-                      <div>
-                        <h5 class="text-subtitle-1 font-weight-bold mb-1">{{ item.title }}</h5>
-                        <p class="text-body-2 text-primary mb-1">{{ item.subtitle }}</p>
-                        <p class="text-caption text-medium-emphasis mb-2">{{ item.period }}</p>
-                        <v-chip :color="item.color" size="x-small" variant="flat">
-                          {{ item.status }}
-                        </v-chip>
-                      </div>
-                    </v-timeline-item>
-                  </v-timeline>
-                </v-card>
-
-                <!-- Quick Contact Premium -->
-                <v-card 
-                  color="primary"
-                  class="text-white pa-6"
-                  style="
-                    background: linear-gradient(135deg, #3B82F6, #2563EB);
-                    border-radius: 20px;
-                  "
-                >
-                  <div class="text-center">
-                    <v-icon icon="mdi-chat" size="48" class="mb-4"></v-icon>
-                    <h3 class="text-h6 font-weight-bold mb-2">Vamos conversar?</h3>
-                    <p class="text-body-2 mb-4" style="opacity: 0.9;">
-                      Sempre aberto para discussões sobre tecnologia
-                    </p>
-                    
-                    <v-btn
-                      variant="outlined"
-                      color="white"
-                      prepend-icon="mdi-email"
-                      @click="navigateToSection('contact')"
-                      class="btn-glow"
-                      style="text-transform: none; font-weight: 600;"
-                    >
-                      Entrar em Contato
-                    </v-btn>
-                  </div>
-                </v-card>
-              </v-col>
-            </v-row>
-          </v-container>
-        </section>
-
-        <!-- Experience Section Premium -->
-        <section id="experience" class="py-16">
-          <v-container>
-            <div class="text-center mb-16">
-              <v-chip
-                prepend-icon="mdi-briefcase"
-                color="primary"
-                variant="outlined"
-                class="mb-4"
-              >
-                Experiência
-              </v-chip>
-              
-              <h2 class="text-h3 font-weight-bold mb-6" style="position: relative;">
-                Trajetória <span class="text-primary">Profissional</span>
-                <div style="
-                  position: absolute;
-                  bottom: -8px;
-                  left: 50%;
-                  transform: translateX(-50%);
-                  width: 60px;
-                  height: 4px;
-                  background: linear-gradient(90deg, #3B82F6, #F59E0B);
-                  border-radius: 2px;
-                "></div>
-              </h2>
-            </div>
-            
-            <v-timeline>
-              <v-timeline-item
-                v-for="exp in [
-                  {
-                    period: 'Jul/2024 - Atual',
-                    role: 'Full Stack Developer',
-                    company: 'Tribunal de Contas do Distrito Federal - TCDF',
-                    location: 'Brasília, DF - Home Office',
-                    description: 'Desenvolvedor Full Stack especializado na criação e gerenciamento de aplicações robustas e escaláveis utilizando VueJS, API Platform e Vuetify.',
-                   achievements: [
-                     'Desenvolvimento Full Stack com VueJS e API Platform',
-                     'Interfaces ricas e responsivas com Vuetify',
-                     'Aplicações escaláveis para setor público',
-                     'Metodologias ágeis e DevOps'
-                   ],
-                   technologies: ['VueJS', 'API Platform', 'Vuetify', 'TypeScript', 'Symfony'],
-                   color: 'primary',
-                   current: true
-                 },
-                 {
-                   period: 'Fev/2023 - Fev/2024',
-                   role: 'Analista de Desenvolvimento Sênior',
-                   company: 'Fretebras',
-                   location: 'Valparaíso de Goiás - Híbrido',
-                   description: 'Atuação como analista desenvolvedor sênior em sistema de gestão de fretes, focado em soluções para logística e transporte.',
-                   achievements: [
-                     'Sistemas de gestão de fretes',
-                     'Desenvolvimento Frontend avançado',
-                     'Integração com APIs de logística',
-                     'Arquitetura de microserviços'
-                   ],
-                   technologies: ['Frontend Avançado', 'APIs Logística', 'Microservices'],
-                   color: 'success'
-                 },
-                 {
-                   period: 'Jan/2022 - Out/2022',
-                   role: 'Analista Desenvolvedor Sr',
-                   company: 'SysMap Solutions',
-                   location: 'Brasília, DF - Presencial/Híbrido',
-                   description: 'Analista Desenvolvedor Sr React atuando nas empresas Editora FTD e Renner, desenvolvendo soluções frontend para grandes varejistas.',
-                   achievements: [
-                     'Desenvolvimento ReactJS para Editora FTD',
-                     'Sistemas para Renner (varejo)',
-                     'Arquitetura frontend escalável',
-                     'Liderança técnica de equipes'
-                   ],
-                   technologies: ['ReactJS', 'Redux', 'TypeScript', 'Material-UI'],
-                   color: 'info'
-                 },
-                 {
-                   period: 'Jun/2019 - Fev/2022',
-                   role: 'Analista Desenvolvedor',
-                   company: 'Coopersystem',
-                   location: 'Distrito Federal - Híbrido',
-                   description: 'Analista desenvolvedor Sr. Frontend (ReactJS) atuando em cooperativa, com projetos para diversos clientes do setor público e privado.',
-                   achievements: [
-                     'Especialista Frontend ReactJS',
-                     'Projetos para setor público',
-                     'Metodologias ágeis',
-                     'Mentoria de desenvolvedores júnior'
-                   ],
-                   technologies: ['ReactJS', 'JavaScript ES6+', 'SASS', 'Webpack'],
-                   color: 'warning'
-                 }
-               ]"
-               :key="exp.period"
-               :dot-color="exp.color"
-               size="large"
-             >
-               <v-card 
-                 class="experience-card pa-6" 
-                 elevation="0"
-                 style="
-                   background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.9));
-                   backdrop-filter: blur(10px);
-                   border: 1px solid rgba(59, 130, 246, 0.1);
-                   border-radius: 20px;
-                 "
-               >
-                 <div class="d-flex justify-space-between align-start mb-4">
-                   <div>
-                     <v-chip 
-                       :color="exp.color" 
-                       size="small" 
-                       variant="flat" 
-                       class="mb-2"
-                       v-if="exp.current"
-                     >
-                       ATUAL
-                     </v-chip>
-                     <h3 class="text-h5 font-weight-bold mb-1">{{ exp.role }}</h3>
-                     <h4 class="text-h6 text-primary mb-1">{{ exp.company }}</h4>
-                     <p class="text-body-2 text-medium-emphasis mb-3">
-                       <v-icon icon="mdi-map-marker" size="small" class="mr-1"></v-icon>
-                       {{ exp.location }}
-                     </p>
-                   </div>
-                   <v-chip 
-                     :color="exp.color" 
-                     variant="outlined" 
-                     size="small"
-                   >
-                     {{ exp.period }}
-                   </v-chip>
-                 </div>
-                 
-                 <p class="text-body-1 mb-4" style="line-height: 1.7;">
-                   {{ exp.description }}
-                 </p>
-                 
-                 <div class="mb-4">
-                   <h5 class="text-subtitle-1 font-weight-bold mb-2">Principais Realizações:</h5>
-                   <v-list density="compact">
-                     <v-list-item
-                       v-for="achievement in exp.achievements"
-                       :key="achievement"
-                     >
-                       <template v-slot:prepend>
-                         <v-icon 
-                           icon="mdi-check-circle" 
-                           :color="exp.color" 
-                           size="small"
-                         ></v-icon>
-                       </template>
-                       <v-list-item-title class="text-body-2">
-                         {{ achievement }}
-                       </v-list-item-title>
-                     </v-list-item>
-                   </v-list>
-                 </div>
-                 
-                 <div>
-                   <h5 class="text-subtitle-1 font-weight-bold mb-2">Tecnologias:</h5>
-                   <div class="d-flex flex-wrap gap-2">
-                     <v-chip
-                       v-for="tech in exp.technologies"
-                       :key="tech"
-                       size="small"
-                       variant="outlined"
-                       :color="exp.color"
-                     >
-                       {{ tech }}
-                     </v-chip>
-                   </div>
-                 </div>
-               </v-card>
-             </v-timeline-item>
-           </v-timeline>
-         </v-container>
-       </section>
-
-       <!-- Skills Section Premium -->
-       <section id="skills" class="py-16" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);">
-         <v-container>
-           <div class="text-center mb-16">
-             <v-chip
-               prepend-icon="mdi-code-tags"
-               color="primary"
-               variant="outlined"
-               class="mb-4"
-             >
-               Skills
-             </v-chip>
-             
-             <h2 class="text-h3 font-weight-bold mb-6" style="position: relative;">
-               Competências <span class="text-primary">Técnicas</span>
-               <div style="
-                 position: absolute;
-                 bottom: -8px;
-                 left: 50%;
-                 transform: translateX(-50%);
-                 width: 60px;
-                 height: 4px;
-                 background: linear-gradient(90deg, #3B82F6, #F59E0B);
-                 border-radius: 2px;
-               "></div>
-             </h2>
-           </div>
-           
-           <v-row>
-             <v-col
-               v-for="category in [
-                 {
-                   title: 'Frontend Frameworks',
-                   icon: 'mdi-vuejs',
-                   color: 'primary',
-                   skills: [
-                     'VueJS (Vue 2 & 3, Composition API, Vuetify)',
-                     'ReactJS (Hooks, Context, Redux)',
-                     'Angular (AngularJS, Angular 10+)',
-                     'TypeScript / JavaScript ES6+',
-                     'Material Design & Bootstrap',
-                     'CSS3, HTML5, SASS'
-                   ]
-                 },
-                 {
-                   title: 'Backend & APIs',
-                   icon: 'mdi-server',
-                   color: 'success',
-                   skills: [
-                     'PHP (Laravel, MVC)',
-                     'API Platform (Symfony)',
-                     'RESTful APIs',
-                     'Node.js & Express',
-                     'Microservices Architecture',
-                     'Database Design & Integration'
-                   ]
-                 },
-                 {
-                   title: 'Databases & Storage',
-                   icon: 'mdi-database',
-                   color: 'info',
-                   skills: [
-                     'PostgreSQL',
-                     'MySQL',
-                     'Oracle Database',
-                     'MongoDB',
-                     'Database Design & Optimization',
-                     'SQL Queries & Performance'
-                   ]
-                 },
-                 {
-                   title: 'Tools & DevOps',
-                   icon: 'mdi-tools',
-                   color: 'warning',
-                   skills: [
-                     'Git & Version Control',
-                     'Docker & Containers',
-                     'CI/CD Pipelines',
-                     'Linux Server Administration',
-                     'Webpack & Build Tools',
-                     'Testing & Quality Assurance'
-                   ]
-                 },
-                 {
-                   title: 'Professional Skills',
-                   icon: 'mdi-account-tie',
-                   color: 'secondary',
-                   skills: [
-                     'Software Architecture & Design',
-                     'Full Stack Development',
-                     'Agile Methodologies',
-                     'Code Review & Best Practices',
-                     'Technical Leadership',
-                     'Remote Work & Collaboration'
-                   ]
-                 },
-                 {
-                   title: 'Specialized Areas',
-                   icon: 'mdi-target',
-                   color: 'accent',
-                   skills: [
-                     'Government Systems Development',
-                     'E-commerce Solutions',
-                     'Educational Platforms',
-                     'Financial Systems',
-                     'Logistics & Transportation',
-                     'Public Sector Solutions'
-                   ]
-                 }
-               ]"
-               :key="category.title"
-               cols="12"
-               md="6"
-               lg="4"
-             >
-               <v-card 
-                 class="skill-category-card pa-6 h-100" 
-                 elevation="0"
-                 style="
-                   background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.9));
-                   backdrop-filter: blur(10px);
-                   border: 1px solid rgba(59, 130, 246, 0.1);
-                   border-radius: 20px;
-                 "
-               >
-                 <div class="d-flex align-center mb-6">
-                   <v-avatar 
-                     :color="category.color" 
-                     size="48" 
-                     class="mr-4"
-                     style="box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);"
-                   >
-                     <v-icon :icon="category.icon" size="24" color="white"></v-icon>
-                   </v-avatar>
-                   <h4 class="text-h6 font-weight-bold">{{ category.title }}</h4>
-                 </div>
-                 
-                 <v-list density="compact">
-                   <v-list-item
-                     v-for="skill in category.skills"
-                     :key="skill"
-                     class="px-0"
-                   >
-                     <template v-slot:prepend>
-                       <v-icon 
-                         icon="mdi-chevron-right" 
-                         :color="category.color" 
-                         size="small"
-                         class="mr-2"
-                       ></v-icon>
-                     </template>
-                     <v-list-item-title 
-                       class="text-body-2" 
-                       style="line-height: 1.5;"
-                     >
-                       {{ skill }}
-                     </v-list-item-title>
-                   </v-list-item>
-                 </v-list>
-               </v-card>
-             </v-col>
-           </v-row>
-         </v-container>
-       </section>
-
-       <!-- Contact Section Premium -->
-       <section id="contact" class="hero-bg py-16">
-         <v-container style="position: relative; z-index: 2;">
-           <div class="text-center mb-12">
-             <v-chip
-               prepend-icon="mdi-email"
-               color="white"
-               variant="outlined"
-               class="mb-4"
-               style="border-color: rgba(255, 255, 255, 0.3);"
-             >
-               <span style="color: white;">Contato</span>
-             </v-chip>
-             
-             <h2 class="text-h3 font-weight-bold mb-6 text-white" style="position: relative;">
-               Vamos trabalhar <span style="color: #F59E0B;">juntos?</span>
-             </h2>
-           </div>
-           
-           <v-row justify="center">
-             <v-col cols="12" md="8" lg="6">
-               <v-card 
-                 class="contact-glass pa-12"
-                 style="border-radius: 30px;"
-               >
-                 <div class="text-center">
-                   <v-icon 
-                     icon="mdi-rocket-launch" 
-                     size="64" 
-                     color="primary" 
-                     class="mb-6"
-                     style="animation: float 3s ease-in-out infinite;"
-                   ></v-icon>
-                   
-                   <h3 class="text-h4 font-weight-bold mb-4 text-white">
-                     Pronto para o próximo projeto?
-                   </h3>
-                   
-                   <p class="text-h6 mb-8 text-white" style="opacity: 0.8; line-height: 1.6;">
-                     Sempre aberto para discussões sobre tecnologia, inovação e novos desafios. 
-                     Vamos criar algo incrível juntos!
-                   </p>
-                   
-                   <v-row>
-                     <v-col
-                       v-for="contact in [
-                         {
-                           icon: 'mdi-email',
-                           title: 'Email',
-                           subtitle: 'thiagob.j.carvalho@gmail.com',
-                           href: 'mailto:thiagob.j.carvalho@gmail.com',
-                           color: 'error'
-                         },
-                         {
-                           icon: 'mdi-linkedin',
-                           title: 'LinkedIn',
-                           subtitle: '/in/thiagobjcarvalho',
-                           href: 'https://linkedin.com/in/thiagobjcarvalho',
-                           color: 'info'
-                         },
-                         {
-                           icon: 'mdi-github',
-                           title: 'GitHub',
-                           subtitle: '/thiagobjcarvalho-cw',
-                           href: 'https://github.com/thiagobjcarvalho-cw',
-                           color: 'secondary'
-                         },
-                         {
-                           icon: 'mdi-whatsapp',
-                           title: 'WhatsApp',
-                           subtitle: '+55 61 98285-9870',
-                           href: 'https://wa.me/5561982859870',
-                           color: 'success'
-                         }
-                       ]"
-                       :key="contact.title"
-                       cols="6"
-                       md="3"
-                     >
-                       <v-btn
-                         :href="contact.href"
-                         target="_blank"
-                         variant="outlined"
-                         color="white"
-                         size="large"
-                         class="btn-glow d-flex flex-column pa-4"
-                         style="
-                           height: 120px;
-                           text-transform: none;
-                           border-color: rgba(255, 255, 255, 0.2);
-                         "
-                       >
-                         <v-icon 
-                           :icon="contact.icon" 
-                           :color="contact.color" 
-                           size="32" 
-                           class="mb-2"
-                         ></v-icon>
-                         <span class="text-body-2 font-weight-bold">{{ contact.title }}</span>
-                         <span class="text-caption" style="opacity: 0.7;">{{ contact.subtitle }}</span>
-                       </v-btn>
-                     </v-col>
-                   </v-row>
-                 </div>
-               </v-card>
-             </v-col>
-           </v-row>
-         </v-container>
-       </section>
-     </v-main>
-     
-     <!-- Footer Premium -->
-     <v-footer 
-       class="pa-8" 
-       style="
-         background: linear-gradient(135deg, #0F0F23 0%, #1a1a3a 100%);
-         color: white;
-       "
-     >
-       <v-container>
-         <v-row>
-           <v-col cols="12" md="6">
-             <h4 class="text-h6 font-weight-bold mb-4 gradient-text-hero">
-               Thiago Carvalho
-             </h4>
-             <p class="text-body-2 mb-4" style="opacity: 0.8; line-height: 1.6;">
-               Full Stack Developer com mais de 10 anos de experiência criando soluções 
-               digitais inovadoras. Especializado em VueJS, ReactJS, Angular e API Platform.
-             </p>
-             <div class="d-flex gap-2">
-               <v-btn 
-                 v-for="social in [
-                   {icon: 'mdi-linkedin', url: 'https://linkedin.com/in/thiagobjcarvalho'},
-                   {icon: 'mdi-github', url: 'https://github.com/thiagobjcarvalho-cw'},
-                   {icon: 'mdi-email', url: 'mailto:thiagob.j.carvalho@gmail.com'}
-                 ]"
-                 :key="social.icon"
-                 :icon="social.icon"
-                 :href="social.url"
-                 target="_blank"
-                 variant="outlined"
-                 color="white"
-                 size="small"
-                 class="btn-glow"
-               ></v-btn>
-             </div>
-           </v-col>
-           
-           <v-col cols="12" md="6" class="text-md-right">
-             <h5 class="text-subtitle-1 font-weight-bold mb-4">Navegação Rápida</h5>
-             <div class="d-flex flex-column gap-2">
-               <v-btn
-                 v-for="item in [
-                   {id: 'about', label: 'Sobre Mim'},
-                   {id: 'experience', label: 'Experiência'},
-                   {id: 'skills', label: 'Competências'},
-                   {id: 'contact', label: 'Contato'}
-                 ]"
-                 :key="item.id"
-                 @click="navigateToSection(item.id)"
-                 variant="text"
-                 color="white"
-                 size="small"
-                 class="justify-md-end"
-                 style="text-transform: none;"
-               >
-                 {{ item.label }}
-               </v-btn>
-             </div>
-           </v-col>
-         </v-row>
-         
-         <v-divider class="my-6" style="border-color: rgba(255, 255, 255, 0.1);"></v-divider>
-         
-         <div class="text-center">
-           <p class="text-caption" style="opacity: 0.6;">
-             © 2024 Thiago Carvalho. Desenvolvido com Vue.js + Vuetify + muito ☕
-           </p>
-           <p class="text-caption mt-2" style="opacity: 0.6;">
-             Full Stack Developer • 10+ anos de experiência • Brasília, DF
-           </p>
-         </div>
-       </v-container>
-     </v-footer>
-   </v-app>
- `
+  let roleIndex = 0, charIndex = 0, deleting = false;
+  (function tick() {
+    const current = ROLES[roleIndex];
+    el.textContent = current.substring(0, charIndex);
+    let delay = deleting ? 40 : 110;
+    if (!deleting && charIndex === current.length) { delay = 1800; deleting = true; }
+    else if (deleting && charIndex === 0) { deleting = false; roleIndex = (roleIndex + 1) % ROLES.length; delay = 350; }
+    charIndex += deleting ? -1 : 1;
+    setTimeout(tick, delay);
+  })();
 }
 
-createApp(PortfolioApp).use(vuetify).mount('#app')
+/* ---------- Render timeline ---------- */
+function renderTimeline() {
+  const wrap = document.getElementById('timeline');
+  if (!wrap) return;
+  wrap.innerHTML = EXPERIENCES.map((exp, i) => {
+    const bullets = exp.bullets.map(b => `<li>${b}</li>`).join('');
+    const current = exp.current ? ' current' : '';
+    return `
+      <li class="tl-item${current}" data-reveal>
+        <span class="tl-dot" aria-hidden="true"></span>
+        <div class="tl-head">
+          <h3 class="tl-role">${exp.role}</h3>
+          <span class="tl-period">${exp.period}</span>
+        </div>
+        <p class="tl-company">${exp.company}</p>
+        <p class="tl-location">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          ${exp.location}
+        </p>
+        <ul class="tl-bullets">${bullets}</ul>
+      </li>`;
+  }).join('');
+}
+
+/* ---------- Render skills ---------- */
+function renderSkills() {
+  const wrap = document.getElementById('skills-grid');
+  if (!wrap) return;
+  wrap.innerHTML = SKILL_GROUPS.map((group, i) => `
+    <article class="skill-cat" data-reveal>
+      <h3>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${group.icon}</svg>
+        ${group.title}
+      </h3>
+      <div class="skill-tags">
+        ${group.skills.map(s => `<span class="skill-tag">${s}</span>`).join('')}
+      </div>
+    </article>
+  `).join('');
+}
+
+/* ---------- Mobile menu ---------- */
+function initMobileMenu() {
+  const btn = document.querySelector('.hamburger');
+  const nav = document.getElementById('mobile-nav');
+  if (!btn || !nav) return;
+  btn.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    btn.querySelector('svg').innerHTML = open
+      ? '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>'
+      : '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+  });
+  nav.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      nav.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', 'Abrir menu');
+      btn.querySelector('svg').innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+    });
+  });
+}
+
+/* ---------- Reveal on scroll ---------- */
+function initReveal() {
+  const els = document.querySelectorAll('[data-reveal]');
+  if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    els.forEach(el => el.classList.add('is-visible'));
+    return;
+  }
+  // Reveal imediato de tudo que já está no viewport (carga inicial):
+  // não depende do IO, funciona em headless/renderizadores pausados.
+  els.forEach(el => {
+    if (el.getBoundingClientRect().top < window.innerHeight * 1.2) {
+      el.classList.add('is-visible');
+    }
+  });
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  els.forEach(el => {
+    if (!el.classList.contains('is-visible')) io.observe(el);
+  });
+
+  // Fallback de segurança: se algo no viewport ainda não revelou em 2.5s
+  // (IO travado, aba oculta, renderizador headless), revela tudo para nunca
+  // deixar conteúdo invisível.
+  setTimeout(() => {
+    els.forEach(el => {
+      if (!el.classList.contains('is-visible') &&
+          el.getBoundingClientRect().top < window.innerHeight * 1.2) {
+        el.classList.add('is-visible');
+      }
+    });
+  }, 2500);
+}
+
+/* ---------- Boot ---------- */
+document.addEventListener('DOMContentLoaded', () => {
+  renderTimeline();
+  renderSkills();
+  startTypewriter();
+  initMobileMenu();
+  initReveal();
+});

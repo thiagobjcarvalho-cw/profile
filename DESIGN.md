@@ -62,9 +62,11 @@ Single family: **Bricolage Grotesque** (Google Fonts, weights 400–800). Distin
 
 ## Responsive
 
-- Breakpoints: 1024px (hero stacks), 820px (header collapses to hamburger, skills tags wrap)
+- Breakpoints: 1024px (hero stacks, **retrato primeiro** via `order:-1`), 820px (header collapses to hamburger), 400px (chips compactos)
 - Touch targets ≥44px on mobile
 - No horizontal scroll; long tech names wrap
+- Hero chips: `align-items:center` previne esticamento vertical; overlay no desktop (`position:absolute`), static abaixo de 1024px
+- Chips order fixa: VueJS 3 → ReactJS → Angular → PHP → API Platform
 
 ## Accessibility
 

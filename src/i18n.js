@@ -19,7 +19,8 @@ function detect(){
 
 async function load(lang){
   try{
-    const res = await fetch(`/locales/${lang}.json`, {cache:'no-store'});
+    const base = import.meta.env.BASE_URL || '/';
+    const res = await fetch(`${base}locales/${lang}.json`, {cache:'no-store'});
     if(!res.ok) throw new Error(res.status);
     dict = await res.json();
   }catch(e){

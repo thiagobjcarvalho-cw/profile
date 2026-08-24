@@ -33,6 +33,11 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
+      - name: Copy CV PDFs to dist
+        run: |
+          mkdir -p dist/docs
+          cp docs/*.pdf dist/docs/ 2>/dev/null || true
+          cp docs/*.jpg dist/docs/ 2>/dev/null || true
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

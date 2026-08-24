@@ -2,6 +2,7 @@
    Thiago Carvalho — Portfólio
    Vanilla JS: dados do currículo real (docs/ThiagoCarvalho-Curriculo.pdf)
    ============================================================ */
+import { initI18n, onLangChange, getLang } from './i18n.js';
 
 /* ---------- Dados: experiências (fonte: currículo PDF) ---------- */
 const EXPERIENCES = [
@@ -129,17 +130,25 @@ const SKILL_GROUPS = [
 ];
 
 /* ---------- Typewriter ---------- */
-const ROLES = [
+const ROLES_PT = [
   'Full Stack Developer Sênior',
   'Especialista em VueJS 3',
   'Expert em ReactJS',
   'Angular / AngularJS',
   'API Platform Master'
 ];
+let _typewriterTimer = null;
 
-function startTypewriter() {
+function getRoles(dict){
+  if(dict && Array.isArray(dict.roles) && dict.roles.length) return dict.roles;
+  return ROLES_PT;
+}
+
+function startTypewriter(dict) {
   const el = document.getElementById('typewriter');
   if (!el) return;
+  if(_typewriterTimer) clearTimeout(_typewriterTimer);
+  const ROLES = getRoles(dict);
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce) { el.textContent = ROLES[0]; return; }
 
@@ -151,7 +160,7 @@ function startTypewriter() {
     if (!deleting && charIndex === current.length) { delay = 1800; deleting = true; }
     else if (deleting && charIndex === 0) { deleting = false; roleIndex = (roleIndex + 1) % ROLES.length; delay = 350; }
     charIndex += deleting ? -1 : 1;
-    setTimeout(tick, delay);
+    _typewriterTimer = setTimeout(tick, delay);
   })();
 }
 
@@ -259,10 +268,19 @@ function initReveal() {
 }
 
 /* ---------- Boot ---------- */
-document.addEventListener('DOMContentLoaded', () => {
+let _i18nReady = null;
+async function boot(){
+  _i18nReady = await initI18n();
   renderTimeline();
   renderSkills();
-  startTypewriter();
+  startTypewriter(_i18nReady.dict);
   initMobileMenu();
   initReveal();
-});
+  onLangChange((_lang, dict)=> startTypewriter(dict));
+}
+
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded', boot);
+} else {
+  boot();
+}
